@@ -1,0 +1,95 @@
+openapi: 3.1.0
+info:
+  title: Open360 app API
+  version: 1.0.0
+  description: API per tutte le richieste inerenti l'app
+
+servers:
+  - url: https://open360.it
+
+paths:
+  /app/v1/register:
+    post:
+      summary: Registra un nuovo utente
+      description: Usata solo dalla LoginFunction con accesso privilegiato.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+      responses:
+        '200':
+          description: Utente registrato
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegisterResponse'
+        '400':
+          description: Richiesta non valida
+        '401':
+          description: Non autorizzato
+        '500':
+          description: Errore interno
+
+  /app/v1/notifyCode:
+    post:
+      summary: Invia email con il codice OTP
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NotifyCodeRequest'
+      responses:
+        '200':
+          description: Codice inviato con successo
+        '400':
+          description: Richiesta non valida
+        '401':
+          description: Non autorizzato
+        '500':
+          description: Errore interno
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    RegisterRequest:
+      type: object
+      properties:
+        idSoggetto:
+          type: string
+        idCentro:
+          type: string
+        email:
+          type: string
+          format: email
+
+    RegisterResponse:
+      type: object
+      properties:
+        idUtente:
+          type: string
+      required:
+        - idUtente
+
+    NotifyCodeRequest:
+      type: object
+      properties:
+        code:
+          type: string
+        email:
+          type: string
+          format: email
+      required:
+        - code
+        - email

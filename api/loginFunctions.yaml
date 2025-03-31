@@ -1,0 +1,140 @@
+openapi: 3.1.0
+info:
+  title: Login Functions API
+  version: 1.0.0
+  description: API per generare e validare OTP
+
+paths:
+  /getCodeByEmail:
+    servers:
+      - url: https://getcodebyemail-qvzzh2plla-oc.a.run.app
+    post:
+      summary: Invia un codice OTP via email
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetCodeByEmailRequest'
+      responses:
+        '200':
+          description: Codice OTP generato e inviato
+        '400':
+          description: Richiesta non valida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /getCodeByEmailOpen:
+    servers:
+      - url: https://getcodebyemailopen-qvzzh2plla-oc.a.run.app
+    post:
+      summary: Invia codice OTP con identificativi esterni (protetta)
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetCodeByEmailOpenRequest'
+      responses:
+        '200':
+          description: Codice OTP generato e inviato
+        '400':
+          description: Richiesta non valida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Non autorizzato
+        '500':
+          description: Errore interno del server
+
+  /validateOTP:
+    servers:
+      - url: https://europe-west8-YOUR_PROJECT_ID.cloudfunctions.net/getCodeByEmail
+    post:
+      summary: Valida un OTP e ritorna un token Firebase
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ValidateOTPRequest'
+      responses:
+        '200':
+          description: OTP valido e token generato
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidateOTPResponse'
+        '400':
+          description: Richiesta non valida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: OTP non trovato
+        '500':
+          description: Errore interno
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    GetCodeByEmailRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+      required:
+        - email
+
+    GetCodeByEmailOpenRequest:
+      type: object
+      properties:
+        idSoggetto:
+          type: string
+        idCentro:
+          type: string
+        email:
+          type: string
+        idUtente:
+          type: string
+      required:
+        - idSoggetto
+        - idCentro
+        - email
+
+    ValidateOTPRequest:
+      type: object
+      properties:
+        code:
+          type: string
+      required:
+        - code
+
+    ValidateOTPResponse:
+      type: object
+      properties:
+        authToken:
+          type: string
+
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+        details:
+          type: array
+          items:
+            type: object

@@ -1,0 +1,36 @@
+openapi: 3.1.0
+info:
+  title: Firestore types
+  version: 1.0.0
+  description: Tipi condivisi Firestore
+
+paths:
+  /CodiceOTP:
+    get:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CodiceOTP'
+      responses:
+        '200':
+
+
+components:
+  schemas:
+    CodiceOTP:
+      type: object
+      properties:
+        idSoggetto:
+          type: string
+        idCentro:
+          type: string
+        email:
+          type: string
+        idUtente:
+          type: string
+        createdAt:
+          type: string
+        expiresAt:
+          type: string
+        
