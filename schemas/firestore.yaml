@@ -4,17 +4,108 @@ info:
   version: 1.0.0
   description: Tipi condivisi Firestore
 
+
+
+
 paths:
   /CodiceOTP:
     get:
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CodiceOTP'
+      summary: Restituisce il codice OTP
+      parameters:
+        - name: email
+          in: query
+          required: false
+          schema:
+            type: string
       responses:
         '200':
+          description: Codice OTP restituito correttamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CodiceOTP'
 
+  # CENTRI
+  /centri:
+    get:
+      summary: Restituisce la lista di tutti i centri
+      responses:
+        '200':
+          description: Lista dei centri
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Centro'
+  /centri/{centroId}:
+    get:
+      summary: Restituisce i dettagli di un centro specifico
+      parameters:
+        - name: centroId
+          in: path
+          required: true
+          description: ID univoco del centro
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Dati del centro
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Centro'
+        '404':
+          description: Centro non trovato
+
+  # ATTIVITA' del Centro
+  /centri/{centroId}/attivita:
+    get:
+      summary: Restituisce la lista delle attività di un centro
+      parameters:
+        - name: centroId
+          in: path
+          required: true
+          description: ID univoco del centro
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Lista delle attività di un centro
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Attivita'
+        '404':
+          description: Centro non trovato
+          
+  /centri/{centroId}/attivita/{attivitaId}:
+    get:
+      summary: Restituisce i dettagli di un'attività specifica
+      parameters:
+        - name: centroId
+          in: path
+          required: true
+          description: ID del centro
+          schema:
+            type: string
+        - name: attivitaId
+          in: path
+          required: true
+          description: ID unico dell'attività
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Dati dell'attività
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Attivita'
+        '404':
+          description: Centro o attività non trovata
 
 components:
   schemas:
@@ -34,3 +125,107 @@ components:
         expiresAt:
           type: string
         
+    # CENTRI
+    Centro:
+      type: object
+      properties:
+        id:
+          type: string
+          description: ID univoco del centro
+        nome:
+          type: string
+          description: Nome del centro
+        descrizione:
+          type: string
+          description: Descrizione (HTML)
+        indirizzo:
+          $ref: '#/components/schemas/Indirizzo'
+        citta:
+          type: string
+          description: Città di riferimento
+        posizione:
+          $ref: '#/components/schemas/Posizione'
+        logoUrl:
+          type: string
+          format: uri
+          description: URL del logo del centro
+        landingImgUrl:
+          type: string
+          format: uri
+          description: URL dell'immagine di copertina (landing)
+        orari:
+          type: string
+          description: Informazioni sugli orari di apertura/attività
+        serviziDisponibili:
+          type: string
+          description: Elenco o descrizione dei servizi disponibili
+        lastUpdatedDetails:
+          type: string
+          format: date-time
+          description: Timestamp aggiornamento dati (formato ISO 8601)
+      required:
+        - id
+        - nome
+    Indirizzo:
+      type: object
+      properties:
+        via:
+          type: string
+        cap:
+          type: string
+        città:
+          type: string
+        provincia:
+          type: string
+        stato:
+          type: string
+    Posizione:
+      type: object
+      properties:
+        lat:
+          type: number
+        long:
+          type: number
+        geohash:
+          type: string
+
+    # ATTIVITA' del Centro
+    Attivita:
+      type: object
+      properties:
+        descrizione:
+          type: string
+          description: Descrizione dell'attività
+        dettagli:
+          type: string
+          description: Altri dettagli aggiuntivi
+        dataInizio:
+          type: string
+          format: date
+          description: Data di inizio (AAAA-MM-GG)
+        dataFine:
+          type: string
+          format: date
+          description: Data di fine (AAAA-MM-GG)
+        dataInizioIscrizione:
+          type: string
+          format: date
+          description: Data di inizio iscrizione (AAAA-MM-GG)
+        dataFineIscrizione:
+          type: string
+          format: date
+          description: Data di fine iscrizione (AAAA-MM-GG)
+        oraInizio:
+          type: string
+          description: Ora di inizio in formato ISO 8601 UTC
+        tipo:
+          type: string
+          enum: ["Prenotazione", "Iscrizione", "Evento"]
+          description: Tipo di attività
+        imgLandingUrl:
+          type: string
+          format: uri
+          description: URL dell’immagine di copertina per l’attività
+      required:
+        - descrizione
+        - tipo
