@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Login Functions API
-  version: 1.0.0
+  version: 1.0.1
   description: API per generare e validare OTP
 
 paths:
@@ -82,6 +82,32 @@ paths:
         '500':
           description: Errore interno
 
+  /socialLogin:
+    servers:
+      - url: https://sociallogin-qvzzh2plla-oc.a.run.app 
+    post:
+      summary: Registra utente se nuovo e ritorna un token Firebase
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SocialLoginRequest'
+      responses:
+        '200':
+          description: Token generato
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SocialLoginResponse'
+        '400':
+          description: Richiesta non valida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Errore interno
 components:
   securitySchemes:
     bearerAuth:
@@ -124,6 +150,26 @@ components:
         - code
 
     ValidateOTPResponse:
+      type: object
+      properties:
+        authToken:
+          type: string
+
+    SocialLoginRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        name:
+          type: string
+        photoUrl:
+          type: string
+          format: uri
+      required:
+        - email
+
+    SocialLoginResponse:
       type: object
       properties:
         authToken:
