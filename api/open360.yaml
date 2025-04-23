@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Open360 app API
-  version: 1.0.0
+  version: 1.0.1
   description: API per tutte le richieste inerenti l'app
 
 servers:
@@ -13,7 +13,7 @@ paths:
       summary: Registra un nuovo utente
       description: Usata solo dalla LoginFunction con accesso privilegiato.
       security:
-        - bearerAuth: []
+        - apiKeyAuth: []
       requestBody:
         required: true
         content:
@@ -38,7 +38,7 @@ paths:
     post:
       summary: Invia email con il codice OTP
       security:
-        - bearerAuth: []
+        - apiKeyAuth: []
       requestBody:
         required: true
         content:
@@ -57,10 +57,10 @@ paths:
 
 components:
   securitySchemes:
-    bearerAuth:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
+    apiKeyAuth:
+      type: apiKey
+      name: X-Api-Key
+      in: header
 
   schemas:
     RegisterRequest:
@@ -73,6 +73,13 @@ components:
         email:
           type: string
           format: email
+        name:
+          type: string
+        photoUrl:
+          type: string
+          format: uri
+      required:
+        -email
 
     RegisterResponse:
       type: object
