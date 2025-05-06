@@ -143,7 +143,7 @@ components:
       type: object
       required:
         - id
-        - nome
+        - name
       properties:
         id:
           type: string
@@ -233,9 +233,12 @@ components:
     Activity:
       type: object
       required:
-        - descrizione
-        - tipo
+        - id
+        - description
+        - type
       properties:
+        id:
+          type: string
         centerId:
           type: string
           description: Riferimento del centro proprietario di questa attività
