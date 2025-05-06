@@ -278,15 +278,19 @@ components:
           description: URL dell'immagine di copertina per l'attività
         reserved:
           type: boolean
+          default: false
           description: Attitività riservata a soci, tesserati, ...
         membershipCardRequired:
           type: boolean
+          default: false
           description: Richiesta tessera
         manualApproved:
           type: boolean
+          default: false
           description: Richiesta approvazione manuale dall'amministratore del centro 
         underageReserved:
           type: boolean
+          default: false
           description: Riservata ai minorenni
         limit:
           type: number
