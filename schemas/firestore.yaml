@@ -225,7 +225,15 @@ components:
         website:
           type: string
         socialMedia:
-          type: string
+          type: array
+          items:
+            type: object
+            properties:
+              socialName:
+                type: string
+              socialUrl:
+                type: string
+                format: uri
 
     Activity:
       type: object
