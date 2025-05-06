@@ -225,15 +225,18 @@ components:
         website:
           type: string
         socialMedia:
-          type: array
-          items:
-            type: object
-            properties:
-              socialName:
-                type: string
-              socialUrl:
-                type: string
-                format: uri
+          $ref: '#/components/schemas/SocialMedia'
+
+    SocialMedia:
+      type: array
+      items:
+        type: object
+        properties:
+          socialName:
+            type: string
+          socialUrl:
+            type: string
+            format: uri
 
     Activity:
       type: object
@@ -300,11 +303,8 @@ components:
         limit:
           type: number
           description: Numero di partecipanti massimo  
-        baseActivities:
-          type: array
-          items: 
-            type: string
-          description: Discipline sportive collegate all'attività
+        disciplines:
+          $ref: '#/components/schemas/Disciplines'
         price:
           type: number
           description: Costo o prezzo dell'iscrizione
@@ -353,6 +353,7 @@ components:
         - city
         - logoUrl
         - type
+        - key
       properties:
         id:
           type: string
@@ -363,16 +364,10 @@ components:
         bannerUrl:
           type: string
           format: uri
+        key:
+          type: string
         disciplines:
-          type: array
-          items:
-            type: object
-            properties:
-              id:
-                type: string
-              iconUrl:
-                type: string
-                format: uri
+          $ref: '#/components/schemas/Disciplines'
         city:
           type: string
         logoUrl:
@@ -385,3 +380,14 @@ components:
           type: integer
         type:
           type: string
+
+    Disciplines:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+          iconUrl:
+            type: string
+            format: uri
