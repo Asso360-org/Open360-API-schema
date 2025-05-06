@@ -156,9 +156,6 @@ components:
           description: Descrizione (HTML)
         address:
           $ref: '#/components/schemas/Address'
-        city:
-          type: string
-          description: Città di riferimento
         location:
           $ref: '#/components/schemas/Location'
         logoUrl:
