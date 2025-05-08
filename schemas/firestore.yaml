@@ -242,7 +242,7 @@ components:
       type: object
       required:
         - id
-        - description
+        - title
         - type
       properties:
         id:
@@ -253,9 +253,9 @@ components:
         description:
           type: string
           description: Descrizione dell'attività
-        details:
+        title:
           type: string
-          description: Altri dettagli aggiuntivi
+          description: Nome dell'attività
         startDate:
           type: string
           format: date
@@ -277,9 +277,7 @@ components:
           format: time
           description: Ora di inizio in formato ISO 8601 UTC
         type:
-          type: string
-          enum: [Prenotazione, Iscrizione, Evento]
-          description: Tipo di attività
+          $ref: '#/components/schemas/ActivityType'
         imageUrl:
           type: string
           format: uri
@@ -334,6 +332,11 @@ components:
           type: string
           format: date-time
           description: Timestamp aggiornamento dati (formato ISO 8601)
+    
+    ActivityType:
+      type: string
+      enum: [Prenotazione, Iscrizione, Evento]
+      description: Tipo di attività
 
     Discount:
       type: object
@@ -352,10 +355,13 @@ components:
         - bannerUrl
         - city
         - logoUrl
-        - type
-        - key
+        - centerId
       properties:
         id:
+          type: string
+        centerId:
+          type: string
+        activityId:
           type: string
         centerName:
           type: string
@@ -364,8 +370,6 @@ components:
         bannerUrl:
           type: string
           format: uri
-        key:
-          type: string
         disciplines:
           $ref: '#/components/schemas/Disciplines'
         city:
@@ -378,8 +382,8 @@ components:
           format: date
         availableSlots:
           type: integer
-        type:
-          type: string
+        activityType:
+          $ref: '#/components/schemas/ActivityType'
 
     Disciplines:
       type: array
