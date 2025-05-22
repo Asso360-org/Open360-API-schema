@@ -364,6 +364,7 @@ components:
       required:
         - id
         - centerName
+        - title
         - description
         - bannerUrl
         - city
@@ -377,6 +378,8 @@ components:
         activityId:
           type: string
         centerName:
+          type: string
+        title:
           type: string
         description:
           type: string
@@ -413,17 +416,8 @@ components:
       type: object
       required:
         - id
-        - firstName 
-        - lastName 
         - email
-        - birthDate 
-        - gender 
         - createdAt
-        - lastLoginAt
-        - fiscalCode 
-        - placeOfBirth 
-        - address 
-        - phones 
       properties:
         id:
           type: string
