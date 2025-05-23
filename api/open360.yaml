@@ -76,6 +76,29 @@ paths:
         '500':
           description: Errore interno
 
+  /app/v1/Enrollment:
+    post:
+      summary: Permette all'utente di inserire una nuova iscrizione a corso/evento dall'app
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InsertEnrollmentRequest'
+      responses:
+        '200':
+          description: Iscrizione registrata con successo
+        '400':
+          description: Richiesta non valida
+        '401':
+          description: Non autorizzato
+        '500':
+          description: Errore interno
+
+
+
 components:
   securitySchemes:
     bearerAuth:
@@ -134,3 +157,99 @@ components:
         - firstName
         - lastName
         - email
+
+    InsertEnrollmentRequest:
+      type: object
+      properties:
+        activityId:
+          type: string
+          description: ID of the activity
+        centerId:
+          type: string
+          description: ID of the center
+        registeredUser:
+          type: object
+          properties:
+            firstName:
+              type: string
+            lastName:
+              type: string
+            fiscalCode:
+              type: string
+            address:
+              $ref: '../schemas/firestore.yaml#/components/schemas/Address'
+          description: Data of the registered user
+        customOptions:
+          type: array
+          items:
+            type: object
+            properties:
+              optionId:
+                type: string
+                description: ID of the option (e.g., Shift choice)
+              selectedValue:
+                type: integer
+                description: Value chosen for the option (e.g., Shift1)
+          description: Custom options that may affect the price
+        chosenServices:
+          type: array
+          items:
+            type: object
+            properties:
+              serviceId:
+                type: string
+              quantity:
+                type: integer
+          description: Additional services chosen
+        installmentPlan:
+          type: object
+          properties:
+            id:
+              type: string
+              description: ID of the payment installment plan chosen by the user
+          description: Payment installment plan
+        paymentMethod:
+          type: object
+          properties:
+            id:
+              type: number
+            description:
+              type: string
+            type:
+              type: string
+              enum:
+                - pay at center
+                - pay in App
+                - bank transfer
+          description: Payment method
+        notes:
+          type: string
+          description: Additional notes for the booking
+        moduleAcceptances:
+          type: array
+          items:
+            type: object
+            properties:
+              acceptedModuleId:
+                type: string
+                description: ID of the accepted policy
+          description: Accepted modules and policies
+        billingDetails:
+          type: object
+          properties:
+            firstName:
+              type: string
+            lastName:
+              type: string
+            fiscalCode:
+              type: string
+            address:
+              $ref: '../schemas/firestore.yaml#/components/schemas/Address'
+            phoneNumber:
+              type: string
+          description: Billing details
+      required:
+        - activityId
+        - centerId
+        - registeredUser
+        - paymentMethod
