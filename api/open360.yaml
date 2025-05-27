@@ -7,9 +7,18 @@ info:
 servers:
   - url: https://open360.it
 
+tags:
+  - name: "Users"
+    description: Operazioni relative alla gestione degli utenti
+  - name: "Enrollments"
+    description: Gestione delle iscrizioni
+
 paths:
   /app/v1/register:
     post:
+      tags:
+        - Users
+      operationId: Users_Register
       summary: Registra un nuovo utente
       description: Usata solo dalla LoginFunction con accesso privilegiato.
       security:
@@ -36,6 +45,9 @@ paths:
 
   /app/v1/notifyCode:
     post:
+      tags:
+        - Users
+      operationId: Users_NotifyCode
       summary: Invia email con il codice OTP
       security:
         - bearerAuth: []
@@ -57,6 +69,9 @@ paths:
 
   /app/v1/updateUserProfile:
     post:
+      tags:
+        - Users
+      operationId: Users_UpdateUserProfile
       summary: Aggiorna i dati del profilo utente
       security:
         - bearerAuth: []
@@ -78,7 +93,10 @@ paths:
 
   /app/v1/Enrollment:
     post:
+      tags:
+        - Enrollments
       summary: Permette all'utente di inserire una nuova iscrizione a corso/evento dall'app
+      operationId: Enrollments_InsertEnrollment
       security:
         - bearerAuth: []
       requestBody:
