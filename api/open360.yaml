@@ -170,6 +170,8 @@ components:
           format: email
         fiscalCode:
           type: string
+        phone:
+          type: string
       required:
         - id
         - firstName
@@ -214,8 +216,8 @@ components:
           items:
             type: object
             properties:
-              serviceId:
-                type: string
+              id:
+                type: integer
               quantity:
                 type: integer
           description: Additional services chosen

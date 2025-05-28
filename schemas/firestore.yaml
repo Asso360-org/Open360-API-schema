@@ -315,20 +315,29 @@ components:
           type: number
           description: Numero di partecipanti massimo  
         disciplines:
-          $ref: '#/components/schemas/Disciplines'
-        price:
-          type: number
-          description: Costo o prezzo dell'iscrizione
-        paymentModalities:
+          type: array
+          items:
+            $ref: '#/components/schemas/Discipline'
+        priceLists:
           type: array
           items: 
-            type: string
+            $ref: '#/components/schemas/PriceList'
           description: Modalità di pagamento (rateizzazione, ecc.)
-        availableServices:
+        additionalServices:
           type: array
           items: 
-            type: string
+            $ref: '#/components/schemas/Service'
           description: Servizi aggiuntivi disponibili per questa attività
+        standardServices:
+          type: array
+          items: 
+            $ref: '#/components/schemas/Service'
+          description: Servizi inclusi per questa attività
+        options:
+          type: array
+          items: 
+            $ref: '#/components/schemas/Option'
+          description: Servizi inclusi per questa attività
         extraConcessions:
           type: array
           items: 
@@ -346,9 +355,55 @@ components:
           format: date-time
           description: Timestamp aggiornamento dati (formato ISO 8601)
     
+    PriceList:
+      type: object
+      properties:
+        id:
+          type: integer
+        description:
+          type: string
+        installmentNumber:
+          type: integer
+        price:
+          type: number
+        installmentsDetail:
+          type: array
+          items:
+            type: object
+            properties:
+              number: 
+                type: integer
+              amount:
+                type: number
+              expirationDate:
+                type: string
+                format: date
+
+    Option:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        values:
+          type: array
+          items:
+            type: string
+
+    Service:
+      type: object
+      properties:
+        id:
+          type: integer
+        description:
+          type: string
+        price:
+          type: number
+
     ActivityType:
       type: string
-      enum: [Prenotazione, Iscrizione, Evento]
+      enum: [Prenotazione, Corso, Evento]
       description: Tipo di attività
 
     Discount:
@@ -387,7 +442,9 @@ components:
           type: string
           format: uri
         disciplines:
-          $ref: '#/components/schemas/Disciplines'
+          type: array
+          items:
+            $ref: '#/components/schemas/Discipline'
         city:
           type: string
         logoUrl:
@@ -401,16 +458,14 @@ components:
         activityType:
           $ref: '#/components/schemas/ActivityType'
 
-    Disciplines:
-      type: array
-      items:
-        type: object
-        properties:
-          id:
-            type: string
-          iconUrl:
-            type: string
-            format: uri
+    Discipline:
+      type: object
+      properties:
+        id:
+          type: string
+        iconUrl:
+          type: string
+          format: uri
 
     User:
       type: object
