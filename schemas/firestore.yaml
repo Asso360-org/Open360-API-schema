@@ -366,6 +366,7 @@ components:
           type: integer
         price:
           type: number
+          default: 0
         installmentsDetail:
           type: array
           items:
