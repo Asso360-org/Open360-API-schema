@@ -204,8 +204,8 @@ components:
           items:
             type: object
             properties:
-              optionId:
-                type: string
+              id:
+                type: integer
                 description: ID of the option (e.g., Shift choice)
               selectedValue:
                 type: integer
