@@ -357,6 +357,11 @@ components:
     
     PriceList:
       type: object
+      required:
+        - id
+        - description
+        - installmentNumber
+        - price
       properties:
         id:
           type: integer
@@ -376,6 +381,7 @@ components:
                 type: integer
               amount:
                 type: number
+                default: 0
               expirationDate:
                 type: string
                 format: date
