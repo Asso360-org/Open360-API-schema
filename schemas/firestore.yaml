@@ -314,6 +314,10 @@ components:
         limit:
           type: number
           description: Numero di partecipanti massimo  
+        allowServicesInstallmentPlan:
+          type: boolean
+          description: Indica se il prezzo dei servizi scelti debba essere inserito nella prima rata o spalmanto proporzionalmente su ogni rata
+          default: false
         disciplines:
           type: array
           items:
@@ -407,6 +411,12 @@ components:
           type: string
         price:
           type: number
+        countable:
+          type: boolean
+          description: Indica se il servizio è quantificabile (cioè se l'utente può scegliere la quantità)
+        maxQuantity:
+          type: number
+          description: In caso di servizi quantificabili, indica la quantità massima selezionabile
 
     ActivityType:
       type: string
