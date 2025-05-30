@@ -314,7 +314,7 @@ components:
         limit:
           type: number
           description: Numero di partecipanti massimo  
-        allowServicesInstallmentPlan:
+        servicesCostOnInstallmentsPlan:
           type: boolean
           description: Indica se il prezzo dei servizi scelti debba essere inserito nella prima rata o spalmanto proporzionalmente su ogni rata
           default: false
@@ -361,11 +361,6 @@ components:
     
     PriceList:
       type: object
-      required:
-        - id
-        - description
-        - installmentNumber
-        - price
       properties:
         id:
           type: integer
@@ -385,7 +380,6 @@ components:
                 type: integer
               amount:
                 type: number
-                default: 0
               expirationDate:
                 type: string
                 format: date
