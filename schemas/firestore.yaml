@@ -314,9 +314,9 @@ components:
         limit:
           type: number
           description: Numero di partecipanti massimo  
-        servicesCostOnInstallmentsPlan:
+        allowServicesInstallmentPlan:
           type: boolean
-          description: Indica se il prezzo dei servizi scelti debba essere inserito nella prima rata o spalmanto proporzionalmente su ogni rata
+          description: Servizi rateizzabili, indica se il prezzo dei servizi scelti debba essere inserito nella prima rata o spalmanto proporzionalmente su ogni rata
           default: false
         disciplines:
           type: array
