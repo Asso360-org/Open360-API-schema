@@ -229,19 +229,7 @@ components:
               description: ID of the payment installment plan chosen by the user
           description: Payment installment plan
         paymentMethod:
-          type: object
-          properties:
-            id:
-              type: number
-            description:
-              type: string
-            type:
-              type: string
-              enum:
-                - pay at center
-                - pay in App
-                - bank transfer
-          description: Payment method
+          $ref: '#/components/schemas/PaymentMethod'
         notes:
           type: string
           description: Additional notes for the booking
@@ -273,3 +261,18 @@ components:
         - centerId
         - registeredUser
         - paymentMethod
+
+    PaymentMethod:
+      type: object
+      properties:
+        id:
+          type: number
+        description:
+          type: string
+        type:
+          type: string
+          enum:
+            - pay at center
+            - pay in App
+            - bank transfer
+      description: Payment method
