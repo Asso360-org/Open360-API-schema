@@ -182,7 +182,7 @@ components:
       type: object
       properties:
         activityId:
-          type: string
+          type: integer
           description: ID of the activity
         centerId:
           type: string
