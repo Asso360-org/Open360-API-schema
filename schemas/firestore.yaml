@@ -411,8 +411,10 @@ components:
           type: string
         price:
           type: number
+          default: 0
         countable:
           type: boolean
+          default: false
           description: Indica se il servizio è quantificabile (cioè se l'utente può scegliere la quantità)
         maxQuantity:
           type: number
