@@ -96,7 +96,7 @@ paths:
       tags:
         - Enrollments
       summary: Permette all'utente di inserire una nuova iscrizione a corso/evento dall'app
-      operationId: Enrollments_InsertEnrollment
+      operationId: Enrollments_InsertEnrollments
       security:
         - bearerAuth: []
       requestBody:
@@ -104,7 +104,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/InsertEnrollmentRequest'
+              $ref: '#/components/schemas/InsertEnrollmentsRequest'
       responses:
         '200':
           description: Iscrizione registrata con successo
@@ -178,7 +178,12 @@ components:
         - lastName
         - email
 
-    InsertEnrollmentRequest:
+    InsertEnrollmentsRequest:
+      type: array
+      items:
+        $ref: '#/components/schemas/InsertEnrollmentItem'
+
+    InsertEnrollmentItem:
       type: object
       properties:
         activityId:
