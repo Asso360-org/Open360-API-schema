@@ -234,7 +234,11 @@ components:
               description: ID of the payment installment plan chosen by the user
           description: Payment installment plan
         chosenPaymentNature:
-          $ref: '../schemas/firestore.yaml#/components/schemas/PaymentNature'
+          type: object
+          properties:
+            id:
+              type: integer
+              description: ID of the payment nature chosen by the user
         notes:
           type: string
           description: Additional notes for the booking
