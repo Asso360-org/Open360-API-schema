@@ -531,7 +531,7 @@ components:
           pattern: "^[A-Z]{6}[0-9LMNPQRSTUV]{2}[A-Z][0-9LMNPQRSTUV]{2}[A-Z][0-9LMNPQRSTUV]{3}[A-Z]$"
           example: "RSSMRA90A15H501Z"
         placeOfBirth: 
-          $ref: '#/components/schemas/Address' 
+          $ref: '../schemas/common.yaml#/components/schemas/Address'
           description: Dettagli del luogo di nascita dell'utente.
         address: 
           $ref: '../schemas/common.yaml#/components/schemas/Address'
