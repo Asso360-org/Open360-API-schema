@@ -159,7 +159,7 @@ components:
         - name
       properties:
         id:
-          type: string
+          type: integer
           description: ID univoco del centro
         name:
           type: string
@@ -259,7 +259,7 @@ components:
         - type
       properties:
         id:
-          type: string
+          type: integer
         centerId:
           type: string
           description: Riferimento del centro proprietario di questa attività
@@ -448,9 +448,9 @@ components:
         id:
           type: string
         centerId:
-          type: string
+          type: integer
         activityId:
-          type: string
+          type: integer
         centerName:
           type: string
         title:
