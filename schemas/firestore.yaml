@@ -168,7 +168,7 @@ components:
           type: string
           description: Descrizione (HTML)
         address:
-          $ref: '../schemas/common.yaml#/components/schemas/Address'
+          $ref: '#/components/schemas/Address'
         location:
           $ref: '#/components/schemas/Location'
         logoUrl:
@@ -189,7 +189,7 @@ components:
           description: Nature di pagamento accettate dal centro
           type: array
           items: 
-            $ref: '../schemas/common.yaml#/components/schemas/PaymentNature'
+            $ref: '#/components/schemas/PaymentNature'
         contacts:
           $ref: '#/components/schemas/Contacts'
         lastUpdatedDetails:
@@ -531,10 +531,10 @@ components:
           pattern: "^[A-Z]{6}[0-9LMNPQRSTUV]{2}[A-Z][0-9LMNPQRSTUV]{2}[A-Z][0-9LMNPQRSTUV]{3}[A-Z]$"
           example: "RSSMRA90A15H501Z"
         placeOfBirth: 
-          $ref: '../schemas/common.yaml#/components/schemas/Address'
+          $ref: '#/components/schemas/Address'
           description: Dettagli del luogo di nascita dell'utente.
         address: 
-          $ref: '../schemas/common.yaml#/components/schemas/Address'
+          $ref: '#/components/schemas/Address'
           description: Indirizzo di residenza dell'utente.
         phones: 
           type: array
@@ -552,7 +552,7 @@ components:
         - level
       properties:
         center:
-          $ref: '../schemas/common.yaml#/components/schemas/Address'
+          $ref: '#/components/schemas/Address'
         number: 
           type: string
           description: Numero univoco della tessera.
@@ -619,13 +619,47 @@ components:
           pattern: "^[A-Z]{6}[0-9LMNPQRSTUV]{2}[A-Z][0-9LMNPQRSTUV]{2}[A-Z][0-9LMNPQRSTUV]{3}[A-Z]$"
           example: "LCRRSS15L20H501Z"
         placeOfBirth: 
-          $ref: '../schemas/common.yaml#/components/schemas/Address'
+          $ref: '#/components/schemas/Address'
           description: Dettagli del luogo di nascita del figlio.
         address: 
-          $ref: '../schemas/common.yaml#/components/schemas/Address'
+          $ref: '#/components/schemas/Address'
           description: Indirizzo di residenza del figlio.
         phones:
           type: array
           description: Elenco dei numeri di telefono del figlio.
           items:
             type: string
+
+    PaymentNature:
+      type: object
+      required:
+        - id
+        - type
+      properties:
+        id:
+          type: number
+        title:
+          type: string
+        description:
+          type: string
+        type:
+          type: string
+          enum:
+            - pay at center
+            - pay in App
+            - bank transfer
+      description: Modalità di pagamento ammesse da un centro (es. paga in centro, paga in app, bonifico, ...)
+
+    Address:
+      type: object
+      properties:
+        road:
+          type: string
+        zipCode:
+          type: string
+        city:
+          type: string
+        district:
+          type: string
+        country:
+          type: string
