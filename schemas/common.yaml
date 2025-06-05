@@ -1,0 +1,40 @@
+openapi: 3.1.0
+info:
+  title: Firestore types
+  version: 1.0.0
+  description: Tipi condivisi Firestore
+
+
+components:
+  schemas:
+
+    PaymentNature:
+      type: object
+      properties:
+        id:
+          type: number
+        title:
+          type: string
+        description:
+          type: string
+        type:
+          type: string
+          enum:
+            - pay at center
+            - pay in App
+            - bank transfer
+      description: Modalità di pagamento ammesse da un centro (es. paga in centro, paga in app, bonifico, ...)
+
+    Address:
+      type: object
+      properties:
+        road:
+          type: string
+        zipCode:
+          type: string
+        city:
+          type: string
+        district:
+          type: string
+        country:
+          type: string

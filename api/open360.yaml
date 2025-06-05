@@ -202,7 +202,7 @@ components:
             fiscalCode:
               type: string
             address:
-              $ref: '../schemas/firestore.yaml#/components/schemas/Address'
+              $ref: '../schemas/common.yaml#/components/schemas/Address'
           description: Data of the registered user
         customOptions:
           type: array
@@ -233,8 +233,8 @@ components:
               type: integer
               description: ID of the payment installment plan chosen by the user
           description: Payment installment plan
-        paymentMethod:
-          $ref: '#/components/schemas/PaymentMethod'
+        chosenPaymentNature:
+          $ref: '../schemas/common.yaml#/components/schemas/PaymentNature'
         notes:
           type: string
           description: Additional notes for the booking
@@ -257,7 +257,7 @@ components:
             fiscalCode:
               type: string
             address:
-              $ref: '../schemas/firestore.yaml#/components/schemas/Address'
+              $ref: '../schemas/common.yaml#/components/schemas/Address'
             phoneNumber:
               type: string
           description: Billing details
@@ -267,17 +267,3 @@ components:
         - registeredUser
         - paymentMethod
 
-    PaymentMethod:
-      type: object
-      properties:
-        id:
-          type: number
-        description:
-          type: string
-        type:
-          type: string
-          enum:
-            - pay at center
-            - pay in App
-            - bank transfer
-      description: Payment method
