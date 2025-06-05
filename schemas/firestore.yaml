@@ -635,9 +635,10 @@ components:
       required:
         - id
         - type
+        - title
       properties:
         id:
-          type: number
+          type: integer
         title:
           type: string
         description:
