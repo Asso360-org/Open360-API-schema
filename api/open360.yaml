@@ -108,6 +108,10 @@ paths:
       responses:
         '200':
           description: Iscrizione registrata con successo
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnrollmentsResponse'
         '400':
           description: Richiesta non valida
         '401':
@@ -272,3 +276,25 @@ components:
         - fiscalCode
         - chosenPaymentNature
 
+    EnrollmentsResponse:
+      type: object
+      properties:
+        amount:
+          type: number
+          description: Importo effettivo della prossima rata da pagare
+        chosenPaymentNature:
+          type: string
+          enum:
+            - pay at center
+            - pay in App
+            - bank transfer
+          description: Modalità di pagamento scelta
+        paymentLink:
+          type: string
+          description: Link pagamento generato da API tramite AssoPay
+        iban:
+          type: string
+          description: IBAN su cui il client dovrà fare il bonifico
+      required:
+        - amount
+        - chosenPaymentNature
