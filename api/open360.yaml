@@ -223,6 +223,8 @@ components:
               selectedValue:
                 type: integer
                 description: Valore dell'opzione scelta (es. "turno 1", "M")
+            required:
+              - id
         chosenServices:
           type: array
           description: Servizi aggiuntivi scelti dall'utente
@@ -284,6 +286,7 @@ components:
         - centerId
         - registeredUser
         - chosenPaymentNature
+        - chosenPriceList
         - billingDetails
 
     EnrollmentsResponse:
