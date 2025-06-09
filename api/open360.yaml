@@ -209,6 +209,8 @@ components:
             address:
               $ref: '../schemas/firestore.yaml#/components/schemas/Address'
           description: Data of the registered user
+          required:
+            - fiscalCode
         customOptions:
           type: array
           items:
