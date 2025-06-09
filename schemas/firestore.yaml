@@ -373,6 +373,8 @@ components:
 
     Option:
       type: object
+      required:
+        - id
       properties:
         id:
           type: integer
@@ -385,6 +387,8 @@ components:
 
     Service:
       type: object
+      required:
+        - id
       properties:
         id:
           type: integer
