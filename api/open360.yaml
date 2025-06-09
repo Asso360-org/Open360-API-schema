@@ -193,12 +193,13 @@ components:
       properties:
         activityId:
           type: string
-          description: ID of the activity
+          description: ID dell'attività
         centerId:
           type: string
-          description: ID of the center
+          description: ID del centro
         registeredUser:
           type: object
+          description: Dati dell'iscritto
           properties:
             firstName:
               type: string
@@ -208,23 +209,23 @@ components:
               type: string
             address:
               $ref: '../schemas/firestore.yaml#/components/schemas/Address'
-          description: Data of the registered user
           required:
             - fiscalCode
         customOptions:
           type: array
+          description: Opzioni di iscrizione selezionate dall'utente
           items:
             type: object
             properties:
               id:
                 type: integer
-                description: ID of the option (e.g., Shift choice)
+                description: ID dell'opzione (es. "scegli il turno", "scegli la taglia della maglietta")
               selectedValue:
                 type: integer
-                description: Value chosen for the option (e.g., Shift1)
-          description: Custom options that may affect the price
+                description: Valore dell'opzione scelta (es. "turno 1", "M")
         chosenServices:
           type: array
+          description: Servizi aggiuntivi scelti dall'utente
           items:
             type: object
             properties:
@@ -232,34 +233,35 @@ components:
                 type: integer
               quantity:
                 type: integer
-          description: Additional services chosen
         chosenPriceList:
           type: object
+          description: Dettaglio del piano rate scelto dall'utente
           properties:
             id:
               type: integer
-              description: ID of the payment installment plan chosen by the user
-          description: Payment installment plan
+              description: ID del piano rate selezionato
         chosenPaymentNature:
           type: object
+          description: Strumento scelto dall'utente per eseguire il pagamento
           properties:
             id:
               type: integer
-              description: ID of the payment nature chosen by the user
+              description: ID dello strumento di pagamento scelto
         notes:
           type: string
-          description: Additional notes for the booking
+          description: Testo libero inserito dall'utente (preferenze, allergie, richieste particolari, ecc.)
         moduleAcceptances:
           type: array
+          description: Accepted modules and policies
           items:
             type: object
             properties:
               acceptedModuleId:
                 type: string
-                description: ID of the accepted policy
-          description: Accepted modules and policies
+                description: ID delle policy accettate dall'utente
         billingDetails:
           type: object
+          description: Dati di fatturazione
           properties:
             firstName:
               type: string
@@ -271,13 +273,12 @@ components:
               $ref: '../schemas/firestore.yaml#/components/schemas/Address'
             phoneNumber:
               type: string
-          description: Billing details
       required:
         - activityId
         - centerId
         - registeredUser
-        - fiscalCode
         - chosenPaymentNature
+        - billingDetails
 
     EnrollmentsResponse:
       type: object
