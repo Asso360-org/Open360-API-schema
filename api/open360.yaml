@@ -5,7 +5,7 @@ info:
   description: API per tutte le richieste inerenti l'app
 
 servers:
-  - url: https://open360.it
+  - url: https://open360.it/app/v1
 
 tags:
   - name: "Users"
@@ -14,7 +14,7 @@ tags:
     description: Gestione delle iscrizioni
 
 paths:
-  /app/v1/register:
+  /register:
     post:
       tags:
         - Users
@@ -43,7 +43,7 @@ paths:
         '500':
           description: Errore interno
 
-  /app/v1/notifyCode:
+  /notifyCode:
     post:
       tags:
         - Users
@@ -67,7 +67,7 @@ paths:
         '500':
           description: Errore interno
 
-  /app/v1/updateUserProfile:
+  /updateUserProfile:
     post:
       tags:
         - Users
@@ -91,7 +91,7 @@ paths:
         '500':
           description: Errore interno
 
-  /app/v1/Enrollment:
+  /Enrollment:
     post:
       tags:
         - Enrollments
