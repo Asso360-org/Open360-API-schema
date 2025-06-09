@@ -233,6 +233,8 @@ components:
                 type: integer
               quantity:
                 type: integer
+            required:
+              - id
         chosenPriceList:
           type: object
           description: Dettaglio del piano rate scelto dall'utente
@@ -240,6 +242,8 @@ components:
             id:
               type: integer
               description: ID del piano rate selezionato
+          required:
+            - id
         chosenPaymentNature:
           type: object
           description: Strumento scelto dall'utente per eseguire il pagamento
@@ -247,6 +251,8 @@ components:
             id:
               type: integer
               description: ID dello strumento di pagamento scelto
+          required:
+            - id
         notes:
           type: string
           description: Testo libero inserito dall'utente (preferenze, allergie, richieste particolari, ecc.)
