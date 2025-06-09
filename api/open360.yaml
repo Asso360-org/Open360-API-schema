@@ -215,16 +215,7 @@ components:
           type: array
           description: Opzioni di iscrizione selezionate dall'utente
           items:
-            type: object
-            properties:
-              id:
-                type: integer
-                description: ID dell'opzione (es. "scegli il turno", "scegli la taglia della maglietta")
-              selectedValue:
-                type: integer
-                description: Valore dell'opzione scelta (es. "turno 1", "M")
-            required:
-              - id
+            $ref: '#/components/schemas/ChosenCustomOptions'
         chosenServices:
           type: array
           description: Servizi aggiuntivi scelti dall'utente
@@ -288,6 +279,18 @@ components:
         - chosenPaymentNature
         - chosenPriceList
         - billingDetails
+
+    ChosenCustomOptions:
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          description: ID dell'opzione (es. "scegli il turno", "scegli la taglia della maglietta")
+        selectedValue:
+          type: integer
+          description: Valore dell'opzione scelta (es. "turno 1", "M")
 
     EnrollmentsResponse:
       type: object
