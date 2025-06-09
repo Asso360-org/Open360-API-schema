@@ -184,10 +184,11 @@ components:
 
     InsertEnrollmentsRequest:
       type: array
+      minItems: 1
       items:
-        $ref: '#/components/schemas/InsertEnrollmentItem'
+        $ref: '#/components/schemas/InsertEnrollmentsRequestItem'
 
-    InsertEnrollmentItem:
+    InsertEnrollmentsRequestItem:
       type: object
       properties:
         activityId:
