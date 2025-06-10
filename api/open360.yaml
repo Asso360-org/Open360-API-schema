@@ -1,316 +1,325 @@
 openapi: 3.1.0
 info:
-  title: Open360 app API
-  version: 1.0.0
-  description: API per tutte le richieste inerenti l'app
+    title: Open360 app API
+    version: 1.0.0
+    description: API per tutte le richieste inerenti l'app
 
 servers:
-  - url: https://open360.it/app/v1
+    - url: https://open360.it/app/v1
 
 tags:
-  - name: "Users"
-    description: Operazioni relative alla gestione degli utenti
-  - name: "Enrollments"
-    description: Gestione delle iscrizioni
+    - name: "Users"
+      description: Operazioni relative alla gestione degli utenti
+    - name: "Enrollments"
+      description: Gestione delle iscrizioni
 
 paths:
-  /register:
-    post:
-      tags:
-        - Users
-      operationId: Users_Register
-      summary: Registra un nuovo utente
-      description: Usata solo dalla LoginFunction con accesso privilegiato.
-      security:
-        - bearerAuth: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/RegisterRequest'
-      responses:
-        '200':
-          description: Utente registrato
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RegisterResponse'
-        '400':
-          description: Richiesta non valida
-        '401':
-          description: Non autorizzato
-        '500':
-          description: Errore interno
+    /register:
+        post:
+            tags:
+                - Users
+            operationId: Users_Register
+            summary: Registra un nuovo utente
+            description: Usata solo dalla LoginFunction con accesso privilegiato.
+            security:
+                - bearerAuth: []
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/RegisterRequest"
+            responses:
+                "200":
+                    description: Utente registrato
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/RegisterResponse"
+                "400":
+                    description: Richiesta non valida
+                "401":
+                    description: Non autorizzato
+                "500":
+                    description: Errore interno
 
-  /notifyCode:
-    post:
-      tags:
-        - Users
-      operationId: Users_NotifyCode
-      summary: Invia email con il codice OTP
-      security:
-        - bearerAuth: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/NotifyCodeRequest'
-      responses:
-        '200':
-          description: Codice inviato con successo
-        '400':
-          description: Richiesta non valida
-        '401':
-          description: Non autorizzato
-        '500':
-          description: Errore interno
+    /notifyCode:
+        post:
+            tags:
+                - Users
+            operationId: Users_NotifyCode
+            summary: Invia email con il codice OTP
+            security:
+                - bearerAuth: []
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/NotifyCodeRequest"
+            responses:
+                "200":
+                    description: Codice inviato con successo
+                "400":
+                    description: Richiesta non valida
+                "401":
+                    description: Non autorizzato
+                "500":
+                    description: Errore interno
 
-  /updateUserProfile:
-    post:
-      tags:
-        - Users
-      operationId: Users_UpdateUserProfile
-      summary: Aggiorna i dati del profilo utente
-      security:
-        - bearerAuth: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UpdateProfileDataRequest'
-      responses:
-        '200':
-          description: Dati aggiornati con successo
-        '400':
-          description: Richiesta non valida
-        '401':
-          description: Non autorizzato
-        '500':
-          description: Errore interno
+    /updateUserProfile:
+        post:
+            tags:
+                - Users
+            operationId: Users_UpdateUserProfile
+            summary: Aggiorna i dati del profilo utente
+            security:
+                - bearerAuth: []
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/UpdateProfileDataRequest"
+            responses:
+                "200":
+                    description: Dati aggiornati con successo
+                "400":
+                    description: Richiesta non valida
+                "401":
+                    description: Non autorizzato
+                "500":
+                    description: Errore interno
 
-  /Enrollment:
-    post:
-      tags:
-        - Enrollments
-      summary: Permette all'utente di inserire una nuova iscrizione a corso/evento dall'app
-      operationId: Enrollments_InsertEnrollments
-      security:
-        - bearerAuth: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/InsertEnrollmentsRequest'
-      responses:
-        '200':
-          description: Iscrizione registrata con successo
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/EnrollmentsResponse'
-        '400':
-          description: Richiesta non valida
-        '401':
-          description: Non autorizzato
-        '500':
-          description: Errore interno
-
-
+    /Enrollment:
+        post:
+            tags:
+                - Enrollments
+            summary: Permette all'utente di inserire una nuova iscrizione a corso/evento dall'app
+            operationId: Enrollments_InsertEnrollments
+            security:
+                - bearerAuth: []
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/InsertEnrollmentsRequest"
+            responses:
+                "200":
+                    description: Iscrizione registrata con successo
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/InsertEnrollmentsResponse"
+                "400":
+                    description: Richiesta non valida
+                "401":
+                    description: Non autorizzato
+                "500":
+                    description: Errore interno
 
 components:
-  securitySchemes:
-    bearerAuth:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
+    securitySchemes:
+        bearerAuth:
+            type: http
+            scheme: bearer
+            bearerFormat: JWT
 
-  schemas:
-    RegisterRequest:
-      type: object
-      properties:
-        idSoggetto:
-          type: string
-        idCentro:
-          type: string
-        email:
-          type: string
-          format: email
-
-    RegisterResponse:
-      type: object
-      properties:
-        idUtente:
-          type: string
-      required:
-        - idUtente
-
-    NotifyCodeRequest:
-      type: object
-      properties:
-        code:
-          type: string
-        email:
-          type: string
-          format: email
-      required:
-        - code
-        - email
-
-    UpdateProfileDataRequest:
-      type: object
-      properties:
-        id:
-          type: string
-        firstName:
-          type: string
-        lastName:
-          type: string
-        email:
-          type: string
-          format: email
-        fiscalCode:
-          type: string
-        phone:
-          type: string
-      required:
-        - id
-        - firstName
-        - lastName
-        - email
-
-    InsertEnrollmentsRequest:
-      type: array
-      minItems: 1
-      items:
-        $ref: '#/components/schemas/InsertEnrollmentsRequestItem'
-
-    InsertEnrollmentsRequestItem:
-      type: object
-      properties:
-        activityId:
-          type: string
-          description: ID dell'attività
-        centerId:
-          type: string
-          description: ID del centro
-        registeredUser:
-          type: object
-          description: Dati dell'iscritto
-          properties:
-            firstName:
-              type: string
-            lastName:
-              type: string
-            fiscalCode:
-              type: string
-            address:
-              $ref: '../schemas/firestore.yaml#/components/schemas/Address'
-          required:
-            - fiscalCode
-        customOptions:
-          type: array
-          description: Opzioni di iscrizione selezionate dall'utente
-          items:
-            $ref: '#/components/schemas/ChosenCustomOptions'
-        chosenServices:
-          type: array
-          description: Servizi aggiuntivi scelti dall'utente
-          items:
+    schemas:
+    #TODO: Valutare required e tradurre nomi
+        RegisterRequest:
             type: object
             properties:
-              id:
-                type: integer
-              quantity:
-                type: integer
+                idSoggetto:
+                    type: string
+                idCentro:
+                    type: string
+                email:
+                    type: string
+                    format: email
+
+    #TODO: Valutare required e tradurre nomi
+        RegisterResponse:
+            type: object
+            properties:
+                idUtente:
+                    type: string
             required:
-              - id
-        chosenPriceList:
-          type: object
-          description: Dettaglio del piano rate scelto dall'utente
-          properties:
-            id:
-              type: integer
-              description: ID del piano rate selezionato
-          required:
-            - id
-        chosenPaymentNature:
-          type: object
-          description: Strumento scelto dall'utente per eseguire il pagamento
-          properties:
-            id:
-              type: integer
-              description: ID dello strumento di pagamento scelto
-          required:
-            - id
-        notes:
-          type: string
-          description: Testo libero inserito dall'utente (preferenze, allergie, richieste particolari, ecc.)
-        moduleAcceptances:
-          type: array
-          description: Accepted modules and policies
-          items:
+                - idUtente
+
+    #TODO: Valutare required e tradurre nomi
+        NotifyCodeRequest:
             type: object
             properties:
-              acceptedModuleId:
-                type: string
-                description: ID delle policy accettate dall'utente
-        billingDetails:
-          type: object
-          description: Dati di fatturazione
-          properties:
-            firstName:
-              type: string
-            lastName:
-              type: string
-            fiscalCode:
-              type: string
-            address:
-              $ref: '../schemas/firestore.yaml#/components/schemas/Address'
-            phoneNumber:
-              type: string
-      required:
-        - activityId
-        - centerId
-        - registeredUser
-        - chosenPaymentNature
-        - chosenPriceList
-        - billingDetails
+                code:
+                    type: string
+                email:
+                    type: string
+                    format: email
+            required:
+                - code
+                - email
 
-    ChosenCustomOptions:
-      type: object
-      required:
-        - id
-      properties:
-        id:
-          type: integer
-          description: ID dell'opzione (es. "scegli il turno", "scegli la taglia della maglietta")
-        selectedValue:
-          type: integer
-          description: Valore dell'opzione scelta (es. "turno 1", "M")
+        UpdateProfileDataRequest:
+            type: object
+            required:
+                - id
+            properties:
+                id:
+                    type: string
+                firstName:
+                    type: [null,string]
+                lastName:
+                    type: [null,string]
+                email:
+                    type: [null,string]
+                    format: email
+                fiscalCode:
+                    type: [null,string]
+                phone:
+                    type: [null,string]
 
-    EnrollmentsResponse:
-      type: object
-      properties:
-        amount:
-          type: number
-          description: Importo effettivo della prossima rata da pagare
-        chosenPaymentNature:
-          type: string
-          enum:
-            - pay at center
-            - pay in App
-            - bank transfer
-          description: Modalità di pagamento scelta
-        paymentLink:
-          type: string
-          description: Link pagamento generato da API tramite AssoPay
-        iban:
-          type: string
-          description: IBAN su cui il client dovrà fare il bonifico
-      required:
-        - amount
-        - chosenPaymentNature
+        InsertEnrollmentsRequest:
+            type: object
+            required:
+                - chosenPaymentMethod
+                - enrollments
+            properties:
+                chosenPaymentMethod:
+                    type: object
+                    required:
+                        - id
+                    description: Strumento scelto dall'utente per eseguire il pagamento
+                    properties:
+                        id:
+                            type: integer
+                            description: ID dello strumento di pagamento scelto
+                enrollments:
+                    type: array
+                    minItems: 1
+                    items:
+                        $ref: "#/components/schemas/Enrollment"
+
+        Enrollment:
+            type: object
+            required:
+                - activityId
+                - centerId
+                - registeredUser
+                - chosenPriceList
+                - billingDetails
+            properties:
+                activityId:
+                    type: string
+                    description: ID dell'attività
+                centerId:
+                    type: string
+                    description: ID del centro
+                registeredUser:
+                    type: object
+                    description: Dati dell'iscritto
+                    required:
+                        - firstName
+                        - lastName
+                        - fiscalCode
+                    properties:
+                        firstName:
+                            type: string
+                        lastName:
+                            type: string
+                        fiscalCode:
+                            type: string
+                        address:
+                            $ref: "../schemas/firestore.yaml#/components/schemas/Address"
+                chosenCustomOptions:
+                    type: array
+                    description: Opzioni di iscrizione selezionate dall'utente
+                    items:
+                        type: object
+                        required:
+                            - id
+                            - selectedValue
+                        properties:
+                            id:
+                                type: integer
+                                description: ID dell'opzione (es. "scegli il turno", "scegli la taglia della maglietta")
+                            selectedValue:
+                                type: integer
+                                description: Valore dell'opzione scelta (es. "turno 1", "M")
+                chosenServices:
+                    type: array
+                    description: Servizi aggiuntivi scelti dall'utente
+                    items:
+                        type: object
+                        required:
+                            - id
+                        properties:
+                            id:
+                                type: integer
+                            quantity:
+                                type: [null, integer]
+                chosenPriceList:
+                    type: object
+                    description: Dettaglio del piano rate scelto dall'utente
+                    required:
+                        - id
+                    properties:
+                        id:
+                            type: integer
+                            description: ID del piano rate selezionato
+                notes:
+                    type: string
+                    default: ""
+                    description: Testo libero inserito dall'utente (preferenze, allergie, richieste particolari, ecc.)
+                moduleAcceptances:
+                    type: array
+                    description: Accepted modules and policies
+                    items:
+                        type: object
+                        properties:
+                            acceptedModuleId:
+                                type: string
+                                description: ID delle policy accettate dall'utente
+                billingDetails:
+                    type: object
+                    description: Dati di fatturazione
+                    required:
+                        - firstName
+                        - lastName
+                        - fiscalCode
+                        - address
+                    properties:
+                        firstName:
+                            type: string
+                        lastName:
+                            type: string
+                        fiscalCode:
+                            type: string
+                        address:
+                            $ref: "../schemas/firestore.yaml#/components/schemas/Address"
+                        phoneNumber:
+                            type: string
+
+        InsertEnrollmentsResponse:
+            type: object
+            required:
+                - amount
+                - chosenPaymentMethod
+            properties:
+                amount:
+                    type: number
+                    description: Importo effettivo della prossima rata da pagare
+                chosenPaymentMethod:
+                    type: string
+                    enum:
+                        - pay at center
+                        - pay in App
+                        - bank transfer
+                    description: Modalità di pagamento scelta
+                paymentLink:
+                    type: [null, string]
+                    description: Link pagamento generato da API tramite AssoPay
+                iban:
+                    type: [null, string]
+                    description: IBAN su cui il client dovrà fare il bonifico

@@ -157,6 +157,10 @@ components:
       required:
         - id
         - name
+        - logoUrl
+        - landingImageUrl
+        - paymentMethods
+        - lastUpdatedDetails
       properties:
         id:
           type: string
@@ -166,6 +170,7 @@ components:
           description: Nome del centro
         description:
           type: string
+          default: ''
           description: Descrizione (HTML)
         address:
           $ref: '#/components/schemas/Address'
@@ -180,16 +185,17 @@ components:
           format: uri
           description: URL dell'immagine di copertina (landing)
         timetable:
-          type: string
+          type: [null,string]
           description: Informazioni sugli orari di apertura/attività
         availableServices:
-          type: string
+          type: [null,string]
           description: Elenco o descrizione dei servizi disponibili
-        paymentNatures:
-          description: Nature di pagamento accettate dal centro
+        paymentMethods:
+          description: Modalità di pagamento ammesse da un centro (es. paga in centro, paga in app, bonifico, ...)
           type: array
+          minItems: 1
           items: 
-            $ref: '#/components/schemas/PaymentNature'
+            $ref: '#/components/schemas/PaymentMethod'
         contacts:
           $ref: '#/components/schemas/Contacts'
         lastUpdatedDetails:
@@ -198,7 +204,7 @@ components:
           description: Timestamp aggiornamento dati (formato ISO 8601)
 
     Location:
-      type: object
+      type: [object,null]
       properties:
         lat:
           type: number
@@ -211,13 +217,13 @@ components:
       type: object
       properties:
         phone:
-          type: string
+          type: [null, string]
         email:
-          type: string
+          type: [null, string]
         whatsapp:
-          type: string
+          type: [null, string]
         website:
-          type: string
+          type: [null, string]
         socialMedia:
           $ref: '#/components/schemas/SocialMedia'
 
@@ -225,6 +231,9 @@ components:
       type: array
       items:
         type: object
+        required:
+          - socialName
+          - socialUrl
         properties:
           socialName:
             type: string
@@ -236,8 +245,17 @@ components:
       type: object
       required:
         - id
+        - centerId
         - title
+        - description
+        - startDate
+        - endDate
+        - subscriptionStartDate
+        - subscriptionEndDate
         - type
+        - imageUrl
+        - priceLists
+        - lastUpdatedDetails
       properties:
         id:
           type: string
@@ -266,10 +284,9 @@ components:
           type: string
           format: date
           description: Data di fine iscrizione (AAAA-MM-GG)
-        timeStart:
-          type: string
-          format: time
-          description: Ora di inizio in formato ISO 8601 UTC
+        timetable:
+          type: [null,string]
+          description: Informazioni sul calendario di svolgimento dell'attività
         type:
           $ref: '#/components/schemas/ActivityType'
         imageUrl:
@@ -293,12 +310,12 @@ components:
           default: false
           description: Riservata ai minorenni
         limit:
-          type: number
+          type: [null,number]
           description: Numero di partecipanti massimo  
         allowServicesInstallmentPlan:
           type: boolean
-          description: Servizi rateizzabili, indica se il prezzo dei servizi scelti debba essere inserito nella prima rata o spalmanto proporzionalmente su ogni rata
           default: false
+          description: Servizi rateizzabili, indica se il prezzo dei servizi scelti debba essere inserito nella prima rata o spalmanto proporzionalmente su ogni rata
         disciplines:
           type: array
           items:
@@ -356,25 +373,28 @@ components:
           type: integer
         price:
           type: number
-          default: 0
         installmentsDetail:
           type: array
           items:
             type: object
+            required:
+              - number
+              - amount
             properties:
               number: 
                 type: integer
               amount:
                 type: number
-                default: 0
               expirationDate:
-                type: string
+                type: [null, string]
                 format: date
 
     Option:
       type: object
       required:
         - id
+        - title
+        - values
       properties:
         id:
           type: integer
@@ -389,6 +409,7 @@ components:
       type: object
       required:
         - id
+        - description
       properties:
         id:
           type: integer
@@ -402,7 +423,7 @@ components:
           default: false
           description: Indica se il servizio è quantificabile (cioè se l'utente può scegliere la quantità)
         maxQuantity:
-          type: number
+          type: [null, number]
           description: In caso di servizi quantificabili, indica la quantità massima selezionabile
 
     ActivityType:
@@ -414,28 +435,28 @@ components:
       type: object
       properties:
         multiFiglio:
-          type: string
+          type: [null,number]
         multiAcquisto:
-          type: string
+          type: [null,number]
 
     SearchItem:
       type: object
       required:
         - id
+        - centerId
         - centerName
         - title
         - description
         - bannerUrl
         - city
         - logoUrl
-        - centerId
       properties:
         id:
           type: string
         centerId:
           type: string
         activityId:
-          type: string
+          type: [null,string]
         centerName:
           type: string
         title:
@@ -455,21 +476,23 @@ components:
           type: string
           format: uri
         startDate:
-          type: string
+          type: [null,string]
           format: date
         availableSlots:
-          type: integer
+          type: [null,integer]
         activityType:
           $ref: '#/components/schemas/ActivityType'
 
     Discipline:
       type: object
+      required:
+        - id
+        - name
       properties:
         id:
+          type: integer
+        name:
           type: string
-        iconUrl:
-          type: string
-          format: uri
 
     User:
       type: object
@@ -634,12 +657,13 @@ components:
           items:
             type: string
 
-    PaymentNature:
+    PaymentMethod:
       type: object
       required:
         - id
-        - type
         - title
+        - description
+        - type
       properties:
         id:
           type: integer
@@ -653,18 +677,17 @@ components:
             - pay at center
             - pay in App
             - bank transfer
-      description: Modalità di pagamento ammesse da un centro (es. paga in centro, paga in app, bonifico, ...)
 
     Address:
       type: object
       properties:
         road:
-          type: string
+          type: [null,string]
         zipCode:
-          type: string
+          type: [null,string]
         city:
-          type: string
+          type: [null,string]
         district:
-          type: string
+          type: [null,string]
         country:
-          type: string
+          type: [null,string]
