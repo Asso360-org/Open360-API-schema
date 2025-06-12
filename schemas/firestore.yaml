@@ -568,6 +568,12 @@ components:
           description: Elenco dei numeri di telefono dell'utente.
           items:
             type: string
+        childsList: 
+        #TODO: implementare
+          type: array
+          description: Lista dei figli minori collegati a questo utente
+          items:
+            $ref: '#/components/schemas/Child'
 
     Card: 
       type: object
