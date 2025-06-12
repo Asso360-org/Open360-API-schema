@@ -204,7 +204,7 @@ components:
           description: Timestamp aggiornamento dati (formato ISO 8601)
 
     Location:
-      type: [object,null]
+      type: object
       properties:
         lat:
           type: number
