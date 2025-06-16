@@ -119,6 +119,66 @@ paths:
                 "500":
                     description: Errore interno
 
+    /enrollments/{enrollmentId}/module:
+        get:
+            tags:
+                - Enrollments
+            summary: Permette all'utente di scaricare il modulo relativo all'iscrizione effettuata
+            operationId: Enrollments_GetModule
+            security:
+                - bearerAuth: []
+            parameters:
+                - name: enrollmentId
+                  in: path
+                  required: true
+                  description: ID dell'iscrizione
+                  schema:
+                    type: integer
+            responses:
+                "200":
+                    description: Invia il link per scaricare il modulo iscrizione in PDF
+                    content:
+                        application/json:
+                            schema:
+                                type: string
+                "400":
+                    description: Richiesta non valida
+                "401":
+                    description: Non autorizzato
+                "500":
+                    description: Errore interno
+
+
+    /paymentIntents/{paymentIntentId}:
+        get:
+            tags:
+                - PaymentIntents
+            summary: Ottiene un link per pagare un impegno dall'app
+            operationId: PaymentIntents_GetPaymentLink
+            security:
+                - bearerAuth: []
+            parameters:
+                - name: paymentIntentId
+                  in: path
+                  required: true
+                  description: ID dell'impegno di pagamento
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: Link per pagare un impegno
+                    content:
+                        application/json:
+                            schema:
+                                type: string
+                "400":
+                    description: Richiesta non valida
+                "401":
+                    description: Non autorizzato
+                "500":
+                    description: Errore interno
+
+
 components:
     securitySchemes:
         bearerAuth:
