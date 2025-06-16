@@ -556,9 +556,8 @@ components:
             - "F"
             - "Non specificato"
         photoUrl:
-          type: string
+          type: [null, string]
           format: uri
-          nullable: true
           description: URL della foto profilo dell'utente, può essere null.
         lastLoginAt:
           type: string
@@ -705,7 +704,7 @@ components:
           default: false
           description: Indica se l'iscrizione è dell'utente stesso (false) o di un figlio (true)
         registeredUser:
-          type: object
+          type: string
           description: Nome dell'iscritto (utente o figlio)
         notes:
           type: string
