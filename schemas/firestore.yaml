@@ -133,6 +133,13 @@ paths:
   /users/{userId}/childs:
     get:
       summary: Figli dell'utente Open360
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: ID dell'utente
+          schema:
+            type: string
       responses:
         '200':
           description: Lista figli dell'Utente
