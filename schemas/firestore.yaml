@@ -622,6 +622,7 @@ components:
         - id
         - firstName
         - lastName
+        - displayName
         - birthDate
         - gender
         - fiscalCode
@@ -639,7 +640,7 @@ components:
           example: "Rossi"
         displayName:
           type: string
-          description: Nome visualizzato dell'utente, può essere "Anonimo" se non specificato.
+          description: Nome completo del figlio.
         birthDate:
           type: string
           format: date
