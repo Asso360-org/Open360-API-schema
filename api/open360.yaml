@@ -293,7 +293,7 @@ components:
                         address:
                             $ref: "../schemas/firestore.yaml#/components/schemas/Address"
                         phoneNumber:
-                            type: string
+                            type: [null, string]
                 registeredUser:
                     type: object
                     description: Dati dell'iscritto
