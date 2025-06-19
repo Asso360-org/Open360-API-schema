@@ -276,6 +276,24 @@ components:
                 centerId:
                     type: string
                     description: ID del centro
+                parentUser:
+                    type: object
+                    description: Dati del genitore (da compilare solo quando si sta inviando l'iscrizione ad un corso per minorenni; in caso contrario usare "registeredUser")
+                    required:
+                        - firstName
+                        - lastName
+                        - fiscalCode
+                    properties:
+                        firstName:
+                            type: string
+                        lastName:
+                            type: string
+                        fiscalCode:
+                            type: string
+                        address:
+                            $ref: "../schemas/firestore.yaml#/components/schemas/Address"
+                        phoneNumber:
+                            type: string
                 registeredUser:
                     type: object
                     description: Dati dell'iscritto
@@ -292,6 +310,8 @@ components:
                             type: string
                         address:
                             $ref: "../schemas/firestore.yaml#/components/schemas/Address"
+                        phoneNumber:
+                            type: string
                 chosenCustomOptions:
                     type: array
                     description: Opzioni di iscrizione selezionate dall'utente
