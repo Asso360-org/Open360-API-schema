@@ -291,7 +291,7 @@ components:
                         fiscalCode:
                             type: string
                         address:
-                            $ref: "../schemas/firestore.yaml#/components/schemas/Address"
+                            $ref: "#/components/schemas/Address"
                         phoneNumber:
                             type: [null, string]
                 registeredUser:
@@ -309,9 +309,9 @@ components:
                         fiscalCode:
                             type: string
                         address:
-                            $ref: "../schemas/firestore.yaml#/components/schemas/Address"
+                            $ref: "#/components/schemas/Address"
                         phoneNumber:
-                            type: string
+                            type: [null, string]
                 chosenCustomOptions:
                     type: array
                     description: Opzioni di iscrizione selezionate dall'utente
@@ -377,7 +377,7 @@ components:
                         fiscalCode:
                             type: string
                         address:
-                            $ref: "../schemas/firestore.yaml#/components/schemas/Address"
+                            $ref: "#/components/schemas/Address"
                         phoneNumber:
                             type: string
 
@@ -403,3 +403,9 @@ components:
                 iban:
                     type: [null, string]
                     description: IBAN su cui il client dovrà fare il bonifico
+
+
+
+        Address:
+            $ref: "../schemas/firestore.yaml#/components/schemas/Address"
+
