@@ -190,6 +190,7 @@ components:
     #TODO: Valutare required e tradurre nomi
         RegisterRequest:
             type: object
+            description: DTO inviato dall'app al momento della registrazione di un nuovo utente
             properties:
                 idSoggetto:
                     type: string
@@ -202,6 +203,7 @@ components:
     #TODO: Valutare required e tradurre nomi
         RegisterResponse:
             type: object
+            description: DTO di risposta dall'app dopo la registrazione di un nuovo utente
             properties:
                 idUtente:
                     type: string
