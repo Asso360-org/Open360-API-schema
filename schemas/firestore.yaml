@@ -5,7 +5,7 @@ info:
   description: Tipi condivisi Firestore
 
 paths:
-  /CodiceOTP:
+  /OtpCode:
     get:
       summary: Restituisce il codice OTP
       parameters:
@@ -21,7 +21,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CodiceOTP'
+                $ref: '#/components/schemas/OtpCode'
 
   /centers:
     get:
@@ -152,19 +152,27 @@ paths:
 
 components:
   schemas:
-    # TODO: tradurre in inglese !
-    CodiceOTP:
+    CollectonsName:
+      type: string
+      enum: [centers, activities, search, users, otpcodes]
+      description: Nomi delle collezioni firestore
+
+    OtpCode:
       type: object
+      required:
+        - createdAt
+        - expiresAt
+        - email
       properties:
-        idSoggetto:
-          type: string
-        idCentro:
-          type: string
+        subjectId:
+          type: [null,string]
+        centerId:
+          type: [null,string]
         email:
           type: string
           format: email
-        idUtente:
-          type: string
+        userId:
+          type: [null,string]
         createdAt:
           type: string
           format: date-time
