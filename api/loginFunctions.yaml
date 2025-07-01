@@ -102,17 +102,17 @@ components:
     GetCodeByEmailOpenRequest:
       type: object
       properties:
-        idSoggetto:
+        subjectId:
           type: string
-        idCentro:
+        centerId:
           type: string
         email:
           type: string
-        idUtente:
-          type: string
+        userId:
+          type: [null,string]
       required:
-        - idSoggetto
-        - idCentro
+        - subjectId
+        - centerId
         - email
 
     ValidateOTPRequest:
