@@ -187,41 +187,41 @@ components:
             bearerFormat: JWT
 
     schemas:
-    #TODO: Valutare required e tradurre nomi
+    #TODO: Valutare required
         RegisterRequest:
             type: object
             description: DTO inviato dall'app al momento della registrazione di un nuovo utente
             properties:
-                idSoggetto:
+                subjectId:
                     type: string
-                idCentro:
+                centerId:
                     type: string
                 email:
                     type: string
                     format: email
 
-    #TODO: Valutare required e tradurre nomi
+    #TODO: Valutare required
         RegisterResponse:
             type: object
             description: DTO di risposta dall'app dopo la registrazione di un nuovo utente
             properties:
-                idUtente:
+                userId:
                     type: string
             required:
                 - idUtente
 
-    #TODO: Valutare required e tradurre nomi
+    #TODO: Valutare required
         NotifyCodeRequest:
             type: object
+            required:
+                - code
+                - email
             properties:
                 code:
                     type: string
                 email:
                     type: string
                     format: email
-            required:
-                - code
-                - email
 
         UpdateProfileDataRequest:
             type: object
