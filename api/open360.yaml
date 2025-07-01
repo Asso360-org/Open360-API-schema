@@ -204,7 +204,7 @@ components:
                 type: [null,string]
                 format: uri
             required:
-              -email
+              - email
 
         RegisterResponse:
             type: object
