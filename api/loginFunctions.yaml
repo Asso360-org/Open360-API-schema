@@ -129,6 +129,28 @@ components:
         authToken:
           type: string
 
+    SocialLoginRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        name:
+          type: [null, string]
+        photoUrl:
+          type: [null, string]
+          format: uri
+      required:
+        - email
+
+    SocialLoginResponse:
+      type: object
+      properties:
+        authToken:
+          type: string
+      required:
+        - authToken
+
     ErrorResponse:
       type: object
       properties:
