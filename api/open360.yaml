@@ -308,6 +308,9 @@ components:
                         - lastName
                         - fiscalCode
                     properties:
+                        id:
+                            type: [null, string]
+                            description: ID dell'iscritto (da compilare solo quando si sta inviando l'iscrizione ad un corso per minorenni, e si è scelto di iscrivere un figlio recuperato dalla lista dei figli già caricati)
                         firstName:
                             type: string
                         lastName:
