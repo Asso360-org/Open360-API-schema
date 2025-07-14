@@ -702,9 +702,6 @@ components:
           type: string
           format: uri
           description: URL del logo del centro in cui è stato effettuato l'acquisto 
-        centerPaymentMethods:
-          description: Modalità di pagamento accettate dal centro in cui è stato effettuato l'acquisto
-          $ref: '#/components/schemas/PaymentMethod'
         activityId:
           type: string
           description: ID dell'attività acquistata
@@ -747,6 +744,9 @@ components:
                 type: string
               quantity: 
                 type: [null, integer]
+        chosenPaymentMethod:
+          description: Modalità di pagamento utilizzata per effettuare l'acquisto
+          $ref: '#/components/schemas/PaymentMethod'
         payment:
           type: object
           description: Informazioni relative al pagamento di questo acquisto
