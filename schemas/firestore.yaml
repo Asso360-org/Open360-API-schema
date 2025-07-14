@@ -663,7 +663,6 @@ components:
           enum:
             - "M"
             - "F"
-            - "Non specificato"
         fiscalCode: 
           type: string
           description: Codice Fiscale dell'utente.
