@@ -795,6 +795,11 @@ components:
                   chosenPaymentMethod:
                     type: [null, integer]
                     description: ID della modalità di pagamento scelta (relativo alle modalità di pagamento ammesse nel centro)
+                  receiptUrl:
+                    type: [null, string]
+                    format: uri
+                    description: Link per scaricare la ricevuta, valorizzato quando la rata è pagata
+
 
 
     PaymentMethod:
