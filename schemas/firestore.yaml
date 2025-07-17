@@ -754,6 +754,7 @@ components:
             - paidAmount
             - totalAmount
             - installmentsDetail
+            - createDate
           properties:
             paidInstallmentsCount:
               type: integer
@@ -764,6 +765,9 @@ components:
             totalAmount:
               type: number
               description: Importo totale
+            createDate:
+              type: string
+              format: date
             installmentsDetail:
               type: array
               minItems: 1
