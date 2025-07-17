@@ -390,6 +390,11 @@ components:
           items: 
             $ref: '#/components/schemas/Option'
           description: Servizi inclusi per questa attività
+        termsAndConditions:
+          type: array
+          items: 
+            $ref: '#/components/schemas/TermsAndConditionsClause'
+          description: Termini e condizioni di iscrizione all'attività':' lista delle clausole, dei regolamenti, e delle privacy che l'utente deve leggere e accettare quando si iscrive a questa attività
         extraConcessions:
           type: array
           items: 
@@ -476,6 +481,24 @@ components:
         maxQuantity:
           type: [null, number]
           description: In caso di servizi quantificabili, indica la quantità massima selezionabile
+
+    TermsAndConditionsClause:
+      type: object
+      required:
+        - id
+        - description
+        - text
+      properties:
+        id:
+          type: integer
+        description:
+          type: string
+        text:
+          type: string
+        optional:
+          type: boolean
+          default: false
+          description: Indica se la clausola è facoltativa (es. consensi per foto, trattamento dati non obbligatori, ecc...); le clausole non facoltative vanno considerate automaticamente accettate
 
     ActivityType:
       type: string
