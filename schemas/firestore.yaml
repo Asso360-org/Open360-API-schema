@@ -35,6 +35,17 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Center'
+    patch:
+      summary: Aggiorna la data di ultima modifica sul centro
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateTimestampDto'
+      responses:
+        '200':
+          description: Aggiornato
 
   /centers/{centerId}:
     get:
@@ -129,6 +140,17 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/User'
+    patch:
+      summary: Aggiorna la data di ultima modifica sul centro
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateTimestampDto'
+      responses:
+        '200':
+          description: Aggiornato
 
   /users/{userId}/childs:
     get:
@@ -841,3 +863,13 @@ components:
           type: [null,string]
         country:
           type: [null,string]
+
+    UpdateTimestampDto:
+      type: object
+      required:
+        - lastUpdatedDetails
+      properties:
+        lastUpdatedDetails:
+          type: string
+          format: date-time
+          description: Timestamp aggiornamento dati (formato ISO 8601)
