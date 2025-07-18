@@ -305,6 +305,7 @@ components:
         - type
         - imageUrl
         - priceLists
+        - termsAndConditions
         - lastUpdatedDetails
       properties:
         id:
@@ -391,10 +392,14 @@ components:
             $ref: '#/components/schemas/Option'
           description: Servizi inclusi per questa attività
         termsAndConditions:
+          type: string
+          summary: Testo che l'utente deve leggere e accettare per essere ammesso all'attività del centro sportivo
+          description: Termini e condizioni di iscrizione all'attività':' regolamenti, clausole, privacy, ecc. che l'utente deve leggere e accettare quando si iscrive a questa attività
+        optionalConsentsClauses:
           type: array
           items: 
-            $ref: '#/components/schemas/TermsAndConditionsClause'
-          description: Termini e condizioni di iscrizione all'attività':' lista delle clausole, dei regolamenti, e delle privacy che l'utente deve leggere e accettare quando si iscrive a questa attività
+            $ref: '#/components/schemas/OptionalConsentsClause'
+          description: Consensi facoltativi':' lista delle clausole a cui l'utente può liberamente decidere se concedere o meno il consenso (es. pubblicazioni foto, invio pubblicità, ecc.)
         extraConcessions:
           type: array
           items: 
@@ -482,7 +487,7 @@ components:
           type: [null, number]
           description: In caso di servizi quantificabili, indica la quantità massima selezionabile
 
-    TermsAndConditionsClause:
+    OptionalConsentsClause:
       type: object
       required:
         - id
@@ -491,14 +496,13 @@ components:
       properties:
         id:
           type: integer
-        description:
+          description: ID della clausola accettata (da inviare con il DTO dell'iscrizione se l'utente accetta questa condizione)
+        title:
           type: string
+          description: Breve descrizione della clausola
         text:
           type: string
-        optional:
-          type: boolean
-          default: false
-          description: Indica se la clausola è facoltativa (es. consensi per foto, trattamento dati non obbligatori, ecc...); le clausole non facoltative vanno considerate automaticamente accettate
+          description: Testo completo della clausola facoltativa
 
     ActivityType:
       type: string

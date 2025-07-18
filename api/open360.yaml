@@ -361,16 +361,16 @@ components:
                         id:
                             type: integer
                             description: ID del piano rate selezionato
-                notes:
-                    type: string
-                    default: ""
-                    description: Testo libero inserito dall'utente (preferenze, allergie, richieste particolari, ecc.)
-                termsAndConditionsAgreements:
+                chosenConsents:
                     type: array
                     items: 
                         type: integer
                         description: ID della clausola accettata (fa riferimento alla lista di termini e condizioni relative all'attività)
-                    description: Lista delle clausole che l'utente ha accettato (si inviano solo le clausole facoltative, mentre quelle obbligatorie si dà per scontato siano state accettate al momento di inoltrare l'iscrizione)
+                    description: Lista delle clausole facoltative che l'utente ha accettato; si inviano solo le clausole facoltative in quanto si dà per scontato che quelle obbligatorie siano state accettate al momento di inoltrare l'iscrizione
+                notes:
+                    type: string
+                    default: ""
+                    description: Testo libero inserito dall'utente (preferenze, allergie, richieste particolari, ecc.)
                 moduleAcceptances:
                     type: array
                     description: Accepted modules and policies
