@@ -362,7 +362,10 @@ components:
           description: Riservata ai minorenni
         limit:
           type: [null,number]
-          description: Numero di partecipanti massimo  
+          description: Numero di partecipanti massimo
+        availableSlots:
+          type: [null,integer]
+          description: Numero di posti rimanenti
         allowServicesInstallmentPlan:
           type: boolean
           default: false
@@ -528,6 +531,10 @@ components:
         - bannerUrl
         - city
         - logoUrl
+        - startDate
+        - endDate
+        - subscriptionStartDate
+        - subscriptionEndDate
         - lastUpdatedDetails
       properties:
         id:
@@ -555,8 +562,21 @@ components:
           type: string
           format: uri
         startDate:
-          type: [null,string]
+          type: string
           format: date
+          description: Data di inizio (AAAA-MM-GG)
+        endDate:
+          type: string
+          format: date
+          description: Data di fine (AAAA-MM-GG)
+        subscriptionStartDate:
+          type: string
+          format: date
+          description: Data di inizio iscrizione (AAAA-MM-GG)
+        subscriptionEndDate:
+          type: string
+          format: date
+          description: Data di fine iscrizione (AAAA-MM-GG)
         availableSlots:
           type: [null,integer]
         activityType:
