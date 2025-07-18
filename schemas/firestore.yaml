@@ -114,6 +114,18 @@ paths:
                 $ref: '#/components/schemas/Activity'
         '404':
           description: Centro o attività non trovata
+    patch:
+      summary: Aggiorna i moduli collegati all'attività (richiamata quando si modificano i moduli a livello di centro)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateActivityModules'
+      responses:
+        '200':
+          description: Aggiornato
+    
 
   /search:
     get:
@@ -171,6 +183,51 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Child'
+
+  /users/{userId}/purchases:
+    get:
+      summary: Acquisti dell'utente
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: ID dell'utente
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Lista acquisti dell'Utente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserPurchase'
+              
+
+  /users/{userId}/purchases/{purchaseId}:
+    patch:
+      summary: Aggiorna un Acquisto dell'Utente, chiamata quando viene completato il pagamento 
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: ID dell'utente
+          schema:
+            type: string
+        - name: purchaseId
+          in: path
+          required: true
+          description: ID dell'acquisto
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Aggiornato
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateUserPurchase'
 
 components:
   schemas:
@@ -911,6 +968,9 @@ components:
         country:
           type: [null,string]
 
+
+    # DTO per update e patch
+
     UpdateTimestampDto:
       type: object
       required:
@@ -920,3 +980,41 @@ components:
           type: string
           format: date-time
           description: Timestamp aggiornamento dati (formato ISO 8601)
+
+    UpdateActivityModules:
+      description: sottoinsieme del model "Activity" contenente solo i campi necessari per aggiornare i moduli
+      type: object
+      required:
+        - termsAndConditions
+        - optionalConsentsClauses
+        - lastUpdatedDetails
+      properties:
+        termsAndConditions:
+          type: string
+          summary: Testo che l'utente deve leggere e accettare per essere ammesso all'attività del centro sportivo
+          description: Termini e condizioni di iscrizione all'attività':' regolamenti, clausole, privacy, ecc. che l'utente deve leggere e accettare quando si iscrive a questa attività
+        optionalConsentsClauses:
+          type: array
+          items: 
+            $ref: '#/components/schemas/OptionalConsentsClause'
+          description: Consensi facoltativi':' lista delle clausole a cui l'utente può liberamente decidere se concedere o meno il consenso (es. pubblicazioni foto, invio pubblicità, ecc.)
+        lastUpdatedDetails:
+          type: string
+          format: date-time
+          description: Timestamp aggiornamento dati (formato ISO 8601)
+
+    UpdateUserPurchase:
+      description: contiene i dati dei pagamenti effettuati, e quindi delle rate da aggiornare
+      type: object
+      required:
+        - lastUpdatedDetails
+      properties:
+        termsAndConditions:
+          type: string
+          summary: Testo che l'utente deve leggere e accettare per essere ammesso all'attività del centro sportivo
+          description: Termini e condizioni di iscrizione all'attività':' regolamenti, clausole, privacy, ecc. che l'utente deve leggere e accettare quando si iscrive a questa attività
+        optionalConsentsClauses:
+          type: array
+          items: 
+            $ref: '#/components/schemas/OptionalConsentsClause'
+          description: Consensi facoltativi':' lista delle clausole a cui l'utente può liberamente decidere se concedere o meno il consenso (es. pubblicazioni foto, invio pubblicità, ecc.)
