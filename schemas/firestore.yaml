@@ -588,10 +588,6 @@ components:
         - bannerUrl
         - city
         - logoUrl
-        - startDate
-        - endDate
-        - subscriptionStartDate
-        - subscriptionEndDate
         - lastUpdatedDetails
       properties:
         id:
@@ -619,25 +615,27 @@ components:
           type: string
           format: uri
         startDate:
-          type: string
+          type: [null,string]
           format: date
           description: Data di inizio (AAAA-MM-GG)
         endDate:
-          type: string
+          type: [null,string]
           format: date
           description: Data di fine (AAAA-MM-GG)
         subscriptionStartDate:
-          type: string
+          type: [null,string]
           format: date
           description: Data di inizio iscrizione (AAAA-MM-GG)
         subscriptionEndDate:
-          type: string
+          type: [null,string]
           format: date
           description: Data di fine iscrizione (AAAA-MM-GG)
         availableSlots:
           type: [null,integer]
         activityType:
-          $ref: '#/components/schemas/ActivityType'
+          oneOf:
+          - $ref: '#/components/schemas/ActivityType'
+          - type: null
         lastUpdatedDetails:
           type: string
           format: date-time
