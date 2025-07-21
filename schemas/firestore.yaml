@@ -321,14 +321,13 @@ components:
       required:
         - lat
         - long
-        - geohash
       properties:
         lat:
           type: number
         long:
           type: number
         geohash:
-          type: string
+          type: [null, string]
 
     Contacts:
       type: object
