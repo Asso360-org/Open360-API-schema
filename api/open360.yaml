@@ -246,7 +246,9 @@ components:
                 phone:
                     type: [null,string]
                 address:
-                    $ref: "#/components/schemas/Address"
+                  oneOf:
+                    - type: null
+                    - $ref: "#/components/schemas/Address"
 
         InsertEnrollmentsRequest:
             type: object
