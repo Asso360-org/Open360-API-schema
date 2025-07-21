@@ -90,21 +90,21 @@ paths:
           description: Centro non trovato
 
   /centers/{centerId}/activity/{activityId}:
+    parameters:
+      - name: centerId
+        in: path
+        required: true
+        description: ID del centro
+        schema:
+          type: string
+      - name: activityId
+        in: path
+        required: true
+        description: ID unico dell'attività
+        schema:
+          type: string
     get:
       summary: Restituisce i dettagli di un'attività specifica
-      parameters:
-        - name: centerId
-          in: path
-          required: true
-          description: ID del centro
-          schema:
-            type: string
-        - name: activityId
-          in: path
-          required: true
-          description: ID unico dell'attività
-          schema:
-            type: string
       responses:
         '200':
           description: Dati dell'attività
