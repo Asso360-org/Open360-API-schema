@@ -929,6 +929,10 @@ components:
                     type: [null, string]
                     format: uri
                     description: Link per scaricare la ricevuta, valorizzato quando la rata è pagata
+                  bankTransferAccountantUrl:
+                    type: [null, string]
+                    format: uri
+                    description: Link alla contabile del bonifico che attesta l'avvenuto pagamento (balorizzato solo se l'utente paga con bonifico e carica una contabile)
         createDate:
           type: string
           format: date
