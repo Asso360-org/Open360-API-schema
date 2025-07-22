@@ -553,7 +553,7 @@ components:
       type: object
       required:
         - id
-        - description
+        - title
         - text
       properties:
         id:
