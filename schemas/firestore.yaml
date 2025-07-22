@@ -922,9 +922,6 @@ components:
                   paidAt:
                     type: [null, string]
                     format: date
-                  chosenPaymentMethod:
-                    type: [null, integer]
-                    description: ID della modalità di pagamento scelta (relativo alle modalità di pagamento ammesse nel centro)
                   receiptUrl:
                     type: [null, string]
                     format: uri
