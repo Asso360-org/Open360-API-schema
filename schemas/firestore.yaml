@@ -373,7 +373,6 @@ components:
         - type
         - imageUrl
         - priceLists
-        - termsAndConditions
         - lastUpdatedDetails
       properties:
         id:
@@ -1002,8 +1001,6 @@ components:
       description: sottoinsieme del model "Activity" contenente solo i campi necessari per aggiornare i moduli
       type: object
       required:
-        - termsAndConditions
-        - optionalConsentsClauses
         - lastUpdatedDetails
       properties:
         termsAndConditions:
