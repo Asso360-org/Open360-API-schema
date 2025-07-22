@@ -870,9 +870,12 @@ components:
                 type: string
               quantity: 
                 type: [null, integer]
-        chosenPaymentMethod:
-          description: Modalità di pagamento utilizzata per effettuare l'acquisto
-          $ref: '#/components/schemas/PaymentMethod'
+        availablePaymentMethods:
+          description: Modalità di pagamento ammesse per questa iscrizione (sono le modalità ammesse al momento dell'acquisto e non variano se il centro le modifica in un secondo momento prima che l'utente esegua il pagamento)
+          type: array
+          minItems: 1
+          items: 
+            $ref: '#/components/schemas/PaymentMethod'
         payment:
           type: object
           description: Informazioni relative al pagamento di questo acquisto
@@ -947,6 +950,9 @@ components:
           type: string
         description:
           type: string
+        iban:
+          type: [null, string]
+          description: IBAN del conto corrente per il bonifico (solo per tipo bonifico)
         type:
           type: string
           enum:
