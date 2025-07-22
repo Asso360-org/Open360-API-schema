@@ -280,13 +280,9 @@ components:
           default: ''
           description: Descrizione (HTML)
         address:
-          oneOf:
-            - type: null
-            - $ref: '#/components/schemas/Address'
+          $ref: '#/components/schemas/Address'
         location:
-          oneOf:
-            - type: null
-            - $ref: '#/components/schemas/Location'
+          $ref: '#/components/schemas/Location'
         logoUrl:
           type: string
           format: uri
@@ -308,9 +304,7 @@ components:
           items: 
             $ref: '#/components/schemas/PaymentMethod'
         contacts:
-          oneOf:
-            - type: null
-            - $ref: '#/components/schemas/Contacts'
+          $ref: '#/components/schemas/Contacts'
         lastUpdatedDetails:
           type: string
           format: date-time
@@ -341,9 +335,7 @@ components:
         website:
           type: [null, string]
         socialMedia:
-          oneOf:
-            - type: null
-            - $ref: '#/components/schemas/SocialMedia'
+          $ref: '#/components/schemas/SocialMedia'
 
     SocialMedia:
       type: array
@@ -481,9 +473,7 @@ components:
             type: string
           description: Documenti richiesti per l'iscrizione (certificati, carta identità, ecc.)
         discount:
-          oneOf:
-            - type: null
-            - $ref: '#/components/schemas/Discount'
+          $ref: '#/components/schemas/Discount'
         lastUpdatedDetails:
           type: string
           format: date-time
@@ -563,7 +553,7 @@ components:
       type: object
       required:
         - id
-        - title
+        - description
         - text
       properties:
         id:
@@ -710,15 +700,11 @@ components:
           description: Codice Fiscale dell'utente.
           pattern: "^[A-Z]{6}[0-9LMNPQRSTUV]{2}[A-Z][0-9LMNPQRSTUV]{2}[A-Z][0-9LMNPQRSTUV]{3}[A-Z]$"
           example: "RSSMRA90A15H501Z"
-        placeOfBirth:
-          oneOf:
-            - type: null
-            - $ref: '#/components/schemas/Address'
+        placeOfBirth: 
+          $ref: '#/components/schemas/Address'
           description: Dettagli del luogo di nascita dell'utente.
         address: 
-          oneOf:
-            - type: null
-            - $ref: '#/components/schemas/Address'
+          $ref: '#/components/schemas/Address'
           description: Indirizzo di residenza dell'utente.
         phone: 
           type: [null,string]
@@ -811,10 +797,8 @@ components:
         placeOfBirth: 
           $ref: '#/components/schemas/Address'
           description: Dettagli del luogo di nascita dell'utente.
-        address:
-          oneOf:
-            - type: null
-            - $ref: '#/components/schemas/Address'
+        address: 
+          $ref: '#/components/schemas/Address'
           description: Indirizzo di residenza del figlio.
 
     UserPurchase: 
@@ -887,8 +871,8 @@ components:
               quantity: 
                 type: [null, integer]
         chosenPaymentMethod:
-          $ref: '#/components/schemas/PaymentMethod'
           description: Modalità di pagamento utilizzata per effettuare l'acquisto
+          $ref: '#/components/schemas/PaymentMethod'
         payment:
           type: object
           description: Informazioni relative al pagamento di questo acquisto
