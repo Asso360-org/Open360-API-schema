@@ -148,7 +148,6 @@ paths:
                 "500":
                     description: Errore interno
 
-
     /paymentIntents/{paymentIntentId}/payInApp:
         get:
             tags:
@@ -163,7 +162,7 @@ paths:
                   required: true
                   description: ID dell'impegno di pagamento
                   schema:
-                    type: string
+                    type: integer
             responses:
                 "200":
                     description: Link per pagare un impegno
@@ -191,7 +190,20 @@ paths:
                   required: true
                   description: ID dell'impegno di pagamento
                   schema:
-                    type: string
+                      type: integer
+            requestBody:
+                required: true
+                content:
+                    multipart/form-data:
+                        schema:
+                            type: object
+                            required:
+                                - file
+                            properties:
+                                file:
+                                    type: string
+                                    format: binary
+                                    description: Il file in formato PDF o immagine
             responses:
                 "200":
                     description: Contabile caricata correttamente e URL per visualizzarla
@@ -205,7 +217,6 @@ paths:
                     description: Non autorizzato
                 "500":
                     description: Errore interno
-
 
 components:
     securitySchemes:
@@ -452,8 +463,5 @@ components:
                     type: [null, string]
                     description: IBAN su cui il client dovrà fare il bonifico
 
-
-
         Address:
             $ref: "../schemas/firestore.yaml#/components/schemas/Address"
-
