@@ -148,6 +148,40 @@ paths:
                 "500":
                     description: Errore interno
 
+    /paymentIntents/{paymentIntentId}/receipt:
+         get:
+            tags:
+                - PaymentIntents
+            summary: Scarica la ricevuta di pagamento di un impegno
+            operationId: PaymentIntents_GetReceipt
+            security:
+                - bearerAuth: []
+            parameters:
+                - name: paymentIntentId
+                  in: path
+                  required: true
+                  description: ID dell'impegno di pagamento
+                  schema:
+                    type: integer
+            responses:
+                "200":
+                    description: Ricevuta in PDF
+                    content:
+                        application/json:
+                            schema:
+                                type: string
+                "204":
+                    description: Ricevuta non presente
+                    content:
+                        application/json:
+                            schema:
+                                type: string
+                "400":
+                    description: Richiesta non valida
+                "401":
+                    description: Non autorizzato
+                "500":
+                    description: Errore interno
     /paymentIntents/{paymentIntentId}/payInApp:
         get:
             tags:
