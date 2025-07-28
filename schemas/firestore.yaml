@@ -227,7 +227,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UpdateUserPurchase'
+                $ref: '#/components/schemas/UserPurchase'
 
 components:
   schemas:
@@ -1008,19 +1008,3 @@ components:
           type: string
           format: date-time
           description: Timestamp aggiornamento dati (formato ISO 8601)
-
-    UpdateUserPurchase:
-      description: contiene i dati dei pagamenti effettuati, e quindi delle rate da aggiornare
-      type: object
-      required:
-        - lastUpdatedDetails
-      properties:
-        termsAndConditions:
-          type: string
-          summary: Testo che l'utente deve leggere e accettare per essere ammesso all'attività del centro sportivo
-          description: Termini e condizioni di iscrizione all'attività':' regolamenti, clausole, privacy, ecc. che l'utente deve leggere e accettare quando si iscrive a questa attività
-        optionalConsentsClauses:
-          type: array
-          items: 
-            $ref: '#/components/schemas/OptionalConsentsClause'
-          description: Consensi facoltativi':' lista delle clausole a cui l'utente può liberamente decidere se concedere o meno il consenso (es. pubblicazioni foto, invio pubblicità, ecc.)
