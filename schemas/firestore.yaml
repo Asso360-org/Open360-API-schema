@@ -221,6 +221,12 @@ paths:
           description: ID dell'acquisto
           schema:
             type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUserPurchase'
       responses:
         '200':
           description: Aggiornato
@@ -1008,3 +1014,51 @@ components:
           type: string
           format: date-time
           description: Timestamp aggiornamento dati (formato ISO 8601)
+
+    UpdateUserPurchase:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/UserPurchase'
+        - properties:
+            id:
+              type: string
+              description: ID univoco utente definito dal Auth Server di Asso.
+            centerId:
+              type: string
+              description: ID del centro in cui è stato effettuato l'acquisto
+            centerName:
+              type: string
+              description: Nome del centro in cui è stato effettuato l'acquisto
+            centerLogoUrl:
+              type: string
+              format: uri
+              description: URL del logo del centro in cui è stato effettuato l'acquisto 
+            activityId:
+              type: string
+              description: ID dell'attività acquistata
+            activityTitle:
+              type: string
+              description: Nome dell'attività acquistata
+            registeredUser:
+              type: string
+              description: Nome dell'iscritto (utente o figlio)
+            payment:
+              type: object
+              description: Informazioni relative al pagamento di questo acquisto
+              required:
+                - paidInstallmentsCount
+                - paidAmount
+                - totalAmount
+                - installmentsDetail
+            availablePaymentMethods:
+              description: Modalità di pagamento ammesse per questa iscrizione (sono le modalità ammesse al momento dell'acquisto e non variano se il centro le modifica in un secondo momento prima che l'utente esegua il pagamento)
+              type: array
+              minItems: 1
+              items: 
+                $ref: '#/components/schemas/PaymentMethod'
+            createDate:
+              type: string
+              format: date
+              description: Data di inserimento dell'iscrizione
+
+
