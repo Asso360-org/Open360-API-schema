@@ -915,6 +915,7 @@ components:
                   - paymentIntentId
                   - number
                   - amount
+                  - expirationDate
                   - paid
                 properties:
                   paymentIntentId:
@@ -926,7 +927,7 @@ components:
                   amount:
                     type: number
                   expirationDate:
-                    type: [null, string]
+                    type: string
                     format: date
                   paid: 
                     type: boolean
