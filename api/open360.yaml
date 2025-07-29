@@ -148,12 +148,12 @@ paths:
                 "500":
                     description: Errore interno
 
-    /paymentIntents/{paymentIntentId}/receipt:
+    /paymentCommitments/{paymentIntentId}/receipt:
          get:
             tags:
-                - PaymentIntents
+                - PaymentCommitments
             summary: Scarica la ricevuta di pagamento di un impegno
-            operationId: PaymentIntents_GetReceipt
+            operationId: PaymentCommitments_GetReceipt
             security:
                 - bearerAuth: []
             parameters:
@@ -182,12 +182,12 @@ paths:
                     description: Non autorizzato
                 "500":
                     description: Errore interno
-    /paymentIntents/{paymentIntentId}/payInApp:
+    /paymentCommitments/{paymentIntentId}/payInApp:
         get:
             tags:
-                - PaymentIntents
+                - PaymentCommitments
             summary: Ottiene un link per pagare un impegno dall'app
-            operationId: PaymentIntents_PayInApp
+            operationId: PaymentCommitments_PayInApp
             security:
                 - bearerAuth: []
             parameters:
@@ -210,12 +210,12 @@ paths:
                     description: Non autorizzato
                 "500":
                     description: Errore interno
-    /paymentIntents/{paymentIntentId}/uploadBankTransferAccountant:
+    /paymentCommitments/{paymentIntentId}/uploadBankTransferAccountant:
         post:
             tags:
-                - PaymentIntents
+                - PaymentCommitments
             summary: Carica una contabile per attestare l'avvenuto bonifico
-            operationId: PaymentIntents_UploadBankTransferAccountant
+            operationId: PaymentCommitments_UploadBankTransferAccountant
             security:
                 - bearerAuth: []
             parameters:
