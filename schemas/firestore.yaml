@@ -375,6 +375,10 @@ components:
         description:
           type: string
           description: Descrizione dell'attività
+        details:
+          type: [string, null]
+          format: html
+          description: Dettagli dell'attività in html
         title:
           type: string
           description: Nome dell'attività
