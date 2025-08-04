@@ -505,21 +505,26 @@ components:
           type: integer
         price:
           type: number
-        installmentsDetail:
+        installmentsDetails:
+          description: Dettaglio del piano rate (pagate o da pagare)
           type: array
-          items:
-            type: object
-            required:
-              - number
-              - amount
-            properties:
-              number: 
-                type: integer
-              amount:
-                type: number
-              expirationDate:
-                type: [null, string]
-                format: date
+          minItems: 1
+          items: 
+            $ref: '#/components/schemas/PriceListInstallmentDetail'
+
+    PriceListInstallmentDetail:
+      type: object
+      required:
+        - number
+        - amount
+      properties:
+        number: 
+          type: integer
+        amount:
+          type: number
+        expirationDate:
+          type: [null, string]
+          format: date
 
     Option:
       type: object
@@ -905,47 +910,51 @@ components:
             totalAmount:
               type: number
               description: Importo totale
-            installmentsDetail:
+            installmentsDetails:
+              description: Dettaglio del piano rate (pagate o da pagare)
               type: array
               minItems: 1
-              description: Dettaglio del piano rate (pagate o da pagare)
-              items:
-                type: object
-                required:
-                  - paymentIntentId
-                  - number
-                  - amount
-                  - expirationDate
-                  - paid
-                properties:
-                  paymentIntentId:
-                    type: integer
-                    description: ID dell'impegno di pagamento relativo alla rata (da utilizzare per pagare la rata o per scaricarne la ricevuta in caso sia già stata pagata)
-                  number: 
-                    type: integer
-                    description: Progressivo
-                  amount:
-                    type: number
-                  expirationDate:
-                    type: string
-                    format: date
-                  paid: 
-                    type: boolean
-                  paidAt:
-                    type: [null, string]
-                    format: date
-                  receiptUrl:
-                    type: [null, string]
-                    format: uri
-                    description: Link per scaricare la ricevuta, valorizzato quando la rata è pagata
-                  bankTransferAccountantUrl:
-                    type: [null, string]
-                    format: uri
-                    description: Link alla contabile del bonifico che attesta l'avvenuto pagamento (balorizzato solo se l'utente paga con bonifico e carica una contabile)
+              items: 
+                $ref: '#/components/schemas/UserPurchaseInstallmentDetail'
         createDate:
           type: string
           format: date
           description: Data di inserimento dell'iscrizione
+
+    UserPurchaseInstallmentDetail:
+      type: object
+      description: Dettaglio della rata
+      required:
+        - paymentIntentId
+        - number
+        - amount
+        - expirationDate
+        - paid
+      properties:
+        paymentIntentId:
+          type: integer
+          description: ID dell'impegno di pagamento relativo alla rata (da utilizzare per pagare la rata o per scaricarne la ricevuta in caso sia già stata pagata)
+        number: 
+          type: integer
+          description: Progressivo
+        amount:
+          type: number
+        expirationDate:
+          type: string
+          format: date
+        paid: 
+          type: boolean
+        paidAt:
+          type: [null, string]
+          format: date
+        receiptUrl:
+          type: [null, string]
+          format: uri
+          description: Link per scaricare la ricevuta, valorizzato quando la rata è pagata
+        bankTransferAccountantUrl:
+          type: [null, string]
+          format: uri
+          description: Link alla contabile del bonifico che attesta l'avvenuto pagamento (balorizzato solo se l'utente paga con bonifico e carica una contabile)
 
 
     PaymentMethod:
