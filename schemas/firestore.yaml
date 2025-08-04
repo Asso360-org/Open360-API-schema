@@ -1047,14 +1047,6 @@ components:
             registeredUser:
               type: string
               description: Nome dell'iscritto (utente o figlio)
-            payment:
-              type: object
-              description: Informazioni relative al pagamento di questo acquisto
-              required:
-                - paidInstallmentsCount
-                - paidAmount
-                - totalAmount
-                - installmentsDetail
             availablePaymentMethods:
               description: Modalità di pagamento ammesse per questa iscrizione (sono le modalità ammesse al momento dell'acquisto e non variano se il centro le modifica in un secondo momento prima che l'utente esegua il pagamento)
               type: array
