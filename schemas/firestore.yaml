@@ -899,7 +899,7 @@ components:
             - paidInstallmentsCount
             - paidAmount
             - totalAmount
-            - installmentsDetail
+            - installmentsDetails
           properties:
             paidInstallmentsCount:
               type: integer
