@@ -947,10 +947,6 @@ components:
         paidAt:
           type: [null, string]
           format: date
-        receiptUrl:
-          type: [null, string]
-          format: uri
-          description: Link per scaricare la ricevuta, valorizzato quando la rata è pagata
         bankTransferAccountantUrl:
           type: [null, string]
           format: uri
