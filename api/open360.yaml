@@ -496,6 +496,9 @@ components:
                 iban:
                     type: [null, string]
                     description: IBAN su cui il client dovrà fare il bonifico
+                bankTransferReference:
+                    type: [null, string]
+                    description: Causale che il cliente deve indicare nel bonifico per aiutare il centro con la riconciliazione del pagamento 
 
         Address:
             $ref: "../schemas/firestore.yaml#/components/schemas/Address"

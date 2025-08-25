@@ -947,6 +947,9 @@ components:
         paidAt:
           type: [null, string]
           format: date
+        bankTransferReference:
+          type: [null, string]
+          description: Causale che il cliente deve indicare nel bonifico quando paga questa rata, per aiutare il centro con la riconciliazione
         bankTransferAccountantUrl:
           type: [null, string]
           format: uri
