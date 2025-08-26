@@ -448,11 +448,8 @@ components:
                     type: array
                     description: Accepted modules and policies
                     items:
-                        type: object
-                        properties:
-                            acceptedModuleId:
-                                type: string
-                                description: ID delle policy accettate dall'utente
+                        type: integer
+                        description: ID delle policy accettate dall'utente
                 billingDetails:
                     type: object
                     description: Dati di fatturazione
