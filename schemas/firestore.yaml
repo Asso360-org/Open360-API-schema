@@ -464,7 +464,7 @@ components:
             $ref: '#/components/schemas/Option'
           description: Servizi inclusi per questa attività
         termsAndConditions:
-          type: string
+          type: [null,string]
           summary: Testo che l'utente deve leggere e accettare per essere ammesso all'attività del centro sportivo
           description: Termini e condizioni di iscrizione all'attività':' regolamenti, clausole, privacy, ecc. che l'utente deve leggere e accettare quando si iscrive a questa attività
         optionalConsentsClauses:
