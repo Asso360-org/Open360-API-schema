@@ -1,0 +1,31 @@
+# Nome del workflow
+name: Mirror to GitHub
+
+# Trigger del workflow: si attiva a ogni push
+on: push
+
+
+jobs:
+  mirror:
+
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout del repository sorgente (Gitea)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configurazione Git e push su GitHub
+        run: |
+          # Configura l'identità dell'utente Git
+          git config --global user.email "gitea-actions-bot@gitea.com"
+          git config --global user.name "Gitea Actions"
+
+          # Aggiunge il repository GitHub come un "remote"
+          # Utilizza il secret di Gitea per l'autenticazione con il PAT di GitHub
+          # Sostituisci <TUO_UTENTE_GITHUB> e <NOME_REPO_GITHUB>
+          git remote add github https://<TUO_UTENTE_GITHUB>:${{ secrets.GITHUB_TOKEN }}@github.com/<TUO_UTENTE_GITHUB>/<NOME_REPO_GITHUB>.git
+
+          # Esegue il push in modalità "mirror"
+          git push --mirror github
