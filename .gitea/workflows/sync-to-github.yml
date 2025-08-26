@@ -24,7 +24,7 @@ jobs:
 
           # Aggiunge il repository GitHub come un "remote"
           # Utilizza il secret di Gitea per l'autenticazione con il PAT di GitHub
-          git remote add github https://Asso360:${{ secrets.GITHUB_TOKEN }}@github.com/Asso360/Open360-API-schema.git
+          git remote add github https://Asso360:${{ secrets.MIRROR_TOKEN }}@github.com/Asso360/Open360-API-schema.git
 
           # Esegue il push in modalità "mirror"
           git push --mirror github
