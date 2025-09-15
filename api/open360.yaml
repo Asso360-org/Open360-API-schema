@@ -91,6 +91,54 @@ paths:
                 "500":
                     description: Errore interno
 
+    /deleteUserAccount:
+        post:
+            tags:
+                - Users
+            operationId: Users_DeleteUserAccount
+            summary: Elimina l'account utente
+            security:
+                - bearerAuth: []
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/DeleteUserAccountRequest"
+            responses:
+                "200":
+                    description: Account eliminato con successo
+                "400":
+                    description: Richiesta non valida
+                "401":
+                    description: Non autorizzato
+                "500":
+                    description: Errore interno
+
+    /deleteUserChild:
+        post:
+            tags:
+                - Users
+            operationId: Users_DeleteUserChild
+            summary: Elimina un figlio associato all'account utente
+            security:
+                - bearerAuth: []
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/DeleteUserChildRequest"
+            responses:
+                "200":
+                    description: Figlio eliminato con successo
+                "400":
+                    description: Richiesta non valida
+                "401":
+                    description: Non autorizzato
+                "500":
+                    description: Errore interno
+
     /enrollments:
         post:
             tags:
@@ -320,6 +368,25 @@ components:
                     type: [null,string]
                 address:
                     $ref: "#/components/schemas/Address"
+
+        DeleteUserAccountRequest:
+            type: object
+            required:
+                - userId
+            properties:
+                userId:
+                    type: string
+
+        DeleteUserChildRequest:
+            type: object
+            required:
+                - userId
+                - childId
+            properties:
+                userId:
+                    type: string
+                childId:
+                    type: string
 
         InsertEnrollmentsRequest:
             type: object
