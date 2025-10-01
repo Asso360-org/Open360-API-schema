@@ -554,7 +554,7 @@ components:
                         - pay in App
                         - bank transfer
                     description: Modalità di pagamento scelta
-                paymentIntentId:
+                paymentIntent:
                     type: [null, string]
                     description: Payment intent ID generato da Stripe (presente solo se la modalità di pagamento scelta è "pay in App")
                 iban:
