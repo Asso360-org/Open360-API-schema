@@ -234,7 +234,7 @@ paths:
         get:
             tags:
                 - PaymentCommitments
-            summary: Ottiene un link per pagare un impegno dall'app
+            summary: Ottiene un payment intent per pagare un impegno dall'app
             operationId: PaymentCommitments_PayInApp
             security:
                 - bearerAuth: []
@@ -247,11 +247,11 @@ paths:
                     type: integer
             responses:
                 "200":
-                    description: Link per pagare un impegno
+                    description: Payment intent per pagare un impegno
                     content:
                         application/json:
                             schema:
-                                type: string
+                                $ref: "#/components/schemas/PayInAppResponse"
                 "400":
                     description: Richiesta non valida
                 "401":
@@ -554,15 +554,30 @@ components:
                         - pay in App
                         - bank transfer
                     description: Modalità di pagamento scelta
-                paymentLink:
+                paymentIntentId:
                     type: [null, string]
-                    description: Link pagamento generato da API tramite AssoPay
+                    description: Payment intent ID generato da Stripe (presente solo se la modalità di pagamento scelta è "pay in App")
                 iban:
                     type: [null, string]
                     description: IBAN su cui il client dovrà fare il bonifico
                 bankTransferReference:
                     type: [null, string]
                     description: Causale che il cliente deve indicare nel bonifico per aiutare il centro con la riconciliazione del pagamento 
+
+        PayInAppResponse:
+            type: object
+            required:
+                - paymentIntentClientSecret
+            properties:
+                paymentIntentClientSecret:
+                    type: string
+                    description: Client secret del payment intent generato da Stripe per permettere il pagamento in-app tramite SDK di Stripe
+                customerId:
+                    type: [null, string]
+                    description: ID del customer Stripe associato all'utente che sta effettuando il pagamento
+                customerEphemeralKeySecret:
+                    type: [null, string]
+                    description: Ephemeral key per il customer Stripe associato all'utente che sta effettuando il pagamento
 
         Address:
             $ref: "../schemas/firestore.yaml#/components/schemas/Address"
