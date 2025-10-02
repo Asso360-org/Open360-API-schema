@@ -591,7 +591,7 @@ components:
                     description: Modalità di pagamento scelta
             oneOf:
                 - $ref: "#/components/schemas/PayAtCenterResponse"
-                - $ref: "#/components/schemas/PayInAppResponse"
+                - $ref: "#/components/schemas/StripeResponse"
                 - $ref: "#/components/schemas/BankTransferResponse"
             discriminator:
                 propertyName: chosenPaymentMethod
