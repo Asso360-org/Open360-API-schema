@@ -597,7 +597,7 @@ components:
                 propertyName: chosenPaymentMethod
                 mapping:
                     "pay at center": "#/components/schemas/PayAtCenterResponse"
-                    "pay in App": "#/components/schemas/PayInAppResponse"
+                    "pay in App": "#/components/schemas/StripeResponse"
                     "bank transfer": "#/components/schemas/BankTransferResponse"
 
         PayAtCenterResponse:
@@ -607,7 +607,7 @@ components:
                     type: string
                     enum: ["pay at center"]
 
-        PayInAppResponse:
+        StripeResponse:
             type: object
             required:
                 - paymentIntentClientSecret
