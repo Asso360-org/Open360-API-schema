@@ -554,9 +554,18 @@ components:
                         - pay in App
                         - bank transfer
                     description: Modalità di pagamento scelta
-                paymentIntent:
+                paymentIntentClientSecret:
                     type: [null, string]
                     description: Payment intent ID generato da Stripe (presente solo se la modalità di pagamento scelta è "pay in App")
+                customerId:
+                    type: [null, string]
+                    description: ID del customer Stripe associato all'utente che sta effettuando il pagamento
+                customerEphemeralKeySecret:
+                    type: [null, string]
+                    description: Ephemeral key per il customer Stripe associato all'utente che sta effettuando il pagamento
+                publishableKey:
+                    type: [null, string]
+                    description: Chiave pubblica Stripe da usare nell'SDK per i pagamenti in-app 
                 iban:
                     type: [null, string]
                     description: IBAN su cui il client dovrà fare il bonifico
@@ -568,16 +577,22 @@ components:
             type: object
             required:
                 - paymentIntentClientSecret
+                - customerId
+                - customerEphemeralKeySecret
+                - publishableKey
             properties:
                 paymentIntentClientSecret:
                     type: string
                     description: Client secret del payment intent generato da Stripe per permettere il pagamento in-app tramite SDK di Stripe
                 customerId:
-                    type: [null, string]
+                    type: string
                     description: ID del customer Stripe associato all'utente che sta effettuando il pagamento
                 customerEphemeralKeySecret:
-                    type: [null, string]
+                    type: string
                     description: Ephemeral key per il customer Stripe associato all'utente che sta effettuando il pagamento
+                publishableKey:
+                    type: string
+                    description: Chiave pubblica Stripe da usare nell'SDK per i pagamenti in-app 
 
         Address:
             $ref: "../schemas/firestore.yaml#/components/schemas/Address"
