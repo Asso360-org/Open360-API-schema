@@ -538,6 +538,41 @@ components:
                         email:
                             type: string
 
+        # InsertEnrollmentsResponse:
+        #     type: object
+        #     required:
+        #         - amount
+        #         - chosenPaymentMethod
+        #     properties:
+        #         amount:
+        #             type: number
+        #             description: Importo effettivo della prossima rata da pagare
+        #         chosenPaymentMethod:
+        #             type: string
+        #             enum:
+        #                 - pay at center
+        #                 - pay in App
+        #                 - bank transfer
+        #             description: Modalità di pagamento scelta
+        #         paymentIntentClientSecret:
+        #             type: [null, string]
+        #             description: Payment intent ID generato da Stripe (presente solo se la modalità di pagamento scelta è "pay in App")
+        #         customerId:
+        #             type: [null, string]
+        #             description: ID del customer Stripe associato all'utente che sta effettuando il pagamento
+        #         customerEphemeralKeySecret:
+        #             type: [null, string]
+        #             description: Ephemeral key per il customer Stripe associato all'utente che sta effettuando il pagamento
+        #         publishableKey:
+        #             type: [null, string]
+        #             description: Chiave pubblica Stripe da usare nell'SDK per i pagamenti in-app 
+        #         iban:
+        #             type: [null, string]
+        #             description: IBAN su cui il client dovrà fare il bonifico
+        #         bankTransferReference:
+        #             type: [null, string]
+        #             description: Causale che il cliente deve indicare nel bonifico per aiutare il centro con la riconciliazione del pagamento 
+
         InsertEnrollmentsResponse:
             type: object
             required:
@@ -554,24 +589,57 @@ components:
                         - pay in App
                         - bank transfer
                     description: Modalità di pagamento scelta
+            oneOf:
+                - $ref: "#/components/schemas/PayAtCenterResponse"
+                - $ref: "#/components/schemas/PayInAppResponse"
+                - $ref: "#/components/schemas/BankTransferResponse"
+            discriminator:
+                propertyName: chosenPaymentMethod
+                mapping:
+                    "pay at center": "#/components/schemas/PayAtCenterResponse"
+                    "pay in App": "#/components/schemas/PayInAppResponse"
+                    "bank transfer": "#/components/schemas/BankTransferResponse"
+
+        PayAtCenterResponse:
+            type: object
+            properties:
+                chosenPaymentMethod:
+                    type: string
+                    enum: ["pay at center"]
+
+        PayInAppResponse:
+            type: object
+            required:
+                - paymentIntentClientSecret
+                - customerId
+                - customerEphemeralKeySecret
+                - publishableKey
+            properties:
+                chosenPaymentMethod:
+                    type: string
+                    enum: ["pay in App"]
                 paymentIntentClientSecret:
-                    type: [null, string]
-                    description: Payment intent ID generato da Stripe (presente solo se la modalità di pagamento scelta è "pay in App")
+                    type: string
                 customerId:
-                    type: [null, string]
-                    description: ID del customer Stripe associato all'utente che sta effettuando il pagamento
+                    type: string
                 customerEphemeralKeySecret:
-                    type: [null, string]
-                    description: Ephemeral key per il customer Stripe associato all'utente che sta effettuando il pagamento
+                    type: string
                 publishableKey:
-                    type: [null, string]
-                    description: Chiave pubblica Stripe da usare nell'SDK per i pagamenti in-app 
+                    type: string
+
+        BankTransferResponse:
+            type: object
+            required:
+                - iban
+                - bankTransferReference
+            properties:
+                chosenPaymentMethod:
+                    type: string
+                    enum: ["bank transfer"]
                 iban:
-                    type: [null, string]
-                    description: IBAN su cui il client dovrà fare il bonifico
+                    type: string
                 bankTransferReference:
-                    type: [null, string]
-                    description: Causale che il cliente deve indicare nel bonifico per aiutare il centro con la riconciliazione del pagamento 
+                    type: string
 
         PayInAppResponse:
             type: object
