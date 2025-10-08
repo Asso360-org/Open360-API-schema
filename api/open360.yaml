@@ -557,6 +557,9 @@ components:
                 paymentIntentClientSecret:
                     type: [null, string]
                     description: Payment intent ID generato da Stripe (presente solo se la modalità di pagamento scelta è "pay in App")
+                paymentIntentConnectAccountId:
+                    type: [null, string]
+                    description: ID Account Stripe Connect a cui appartiene il pagamento (presente solo se la modalità di pagamento scelta è "pay in App")
                 customerId:
                     type: [null, string]
                     description: ID del customer Stripe associato all'utente che sta effettuando il pagamento
@@ -577,6 +580,7 @@ components:
             type: object
             required:
                 - paymentIntentClientSecret
+                - paymentIntentConnectAccountId
                 - customerId
                 - customerEphemeralKeySecret
                 - publishableKey
@@ -584,6 +588,9 @@ components:
                 paymentIntentClientSecret:
                     type: string
                     description: Client secret del payment intent generato da Stripe per permettere il pagamento in-app tramite SDK di Stripe
+                paymentIntentConnectAccountId:
+                    type: [null, string]
+                    description: ID Account Stripe Connect a cui appartiene il pagamento
                 customerId:
                     type: string
                     description: ID del customer Stripe associato all'utente che sta effettuando il pagamento
