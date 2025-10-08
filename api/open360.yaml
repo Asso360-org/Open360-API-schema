@@ -589,7 +589,7 @@ components:
                     type: string
                     description: Client secret del payment intent generato da Stripe per permettere il pagamento in-app tramite SDK di Stripe
                 paymentIntentConnectAccountId:
-                    type: [null, string]
+                    type: string
                     description: ID Account Stripe Connect a cui appartiene il pagamento
                 customerId:
                     type: string
