@@ -871,5 +871,835 @@ components:
                     type: string
                     description: Chiave pubblica Stripe da usare nell'SDK per i pagamenti in-app 
 
+
+
+        CollectionsNames:
+          type: string
+          enum: [centers, activities, search, users, children, purchases, otpcodes, notifications]
+          description: Nomi delle collezioni firestore
+
+        OtpCode:
+          type: object
+          required:
+            - createdAt
+            - expiresAt
+            - email
+          properties:
+            subjectId:
+              type: [null,string]
+            centerId:
+              type: [null,string]
+            email:
+              type: string
+              format: email
+            userId:
+              type: [null,string]
+            createdAt:
+              type: string
+              format: date-time
+            expiresAt:
+              type: string
+              format: date-time
+
+        Center:
+          type: object
+          required:
+            - id
+            - name
+            - logoUrl
+            - landingImageUrl
+            - paymentMethods
+            - lastUpdatedDetails
+          properties:
+            id:
+              type: string
+              description: ID univoco del centro
+            name:
+              type: string
+              description: Nome del centro
+            description:
+              type: string
+              default: ''
+              description: Descrizione (HTML)
+            address:
+              $ref: '#/components/schemas/Address'
+            location:
+              $ref: '#/components/schemas/Location'
+            logoUrl:
+              type: string
+              format: uri
+              description: URL del logo del centro
+            landingImageUrl:
+              type: string
+              format: uri
+              description: URL dell'immagine di copertina (landing)
+            timetable:
+              type: [null,string]
+              description: Informazioni sugli orari di apertura/attività
+            availableServices:
+              type: [null,string]
+              description: Elenco o descrizione dei servizi disponibili
+            paymentMethods:
+              description: Modalità di pagamento ammesse da un centro (es. paga in centro, paga in app, bonifico, ...)
+              type: array
+              minItems: 1
+              items: 
+                $ref: '#/components/schemas/PaymentMethod'
+            contacts:
+              $ref: '#/components/schemas/Contacts'
+            lastUpdatedDetails:
+              type: string
+              format: date-time
+              description: Timestamp aggiornamento dati (formato ISO 8601)
+
+        Location:
+          type: object
+          required:
+            - lat
+            - long
+          properties:
+            lat:
+              type: number
+            long:
+              type: number
+            geohash:
+              type: [null, string]
+
+        Contacts:
+          type: object
+          properties:
+            phone:
+              type: [null, string]
+            email:
+              type: [null, string]
+            whatsapp:
+              type: [null, string]
+            website:
+              type: [null, string]
+            socialMedia:
+              $ref: '#/components/schemas/SocialMedia'
+
+        SocialMedia:
+          type: array
+          items:
+            type: object
+            required:
+              - socialName
+              - socialUrl
+            properties:
+              socialName:
+                type: string
+              socialUrl:
+                type: string
+                format: uri
+
+        Activity:
+          type: object
+          required:
+            - id
+            - centerId
+            - title
+            - description
+            - startDate
+            - endDate
+            - subscriptionStartDate
+            - subscriptionEndDate
+            - type
+            - imageUrl
+            - priceLists
+            - lastUpdatedDetails
+          properties:
+            id:
+              type: string
+            centerId:
+              type: string
+              description: Riferimento del centro proprietario di questa attività
+            description:
+              type: string
+              description: Descrizione dell'attività
+            details:
+              type: [string, null]
+              format: html
+              description: Dettagli dell'attività in html
+            title:
+              type: string
+              description: Nome dell'attività
+            startDate:
+              type: string
+              format: date
+              description: Data di inizio (AAAA-MM-GG)
+            endDate:
+              type: string
+              format: date
+              description: Data di fine (AAAA-MM-GG)
+            subscriptionStartDate:
+              type: string
+              format: date
+              description: Data di inizio iscrizione (AAAA-MM-GG)
+            subscriptionEndDate:
+              type: string
+              format: date
+              description: Data di fine iscrizione (AAAA-MM-GG)
+            timetable:
+              type: [null,string]
+              description: Informazioni sul calendario di svolgimento dell'attività
+            type:
+              $ref: '#/components/schemas/ActivityType'
+            imageUrl:
+              type: string
+              format: uri
+              description: URL dell'immagine di copertina per l'attività
+            reserved:
+              type: boolean
+              default: false
+              description: Attitività riservata a soci, tesserati, ...
+            membershipCardRequired:
+              type: boolean
+              default: false
+              description: Richiesta tessera
+            manualApproved:
+              type: boolean
+              default: false
+              description: Richiesta approvazione manuale dall'amministratore del centro 
+            underageReserved:
+              type: boolean
+              default: false
+              description: Riservata ai minorenni
+            limit:
+              type: [null,number]
+              description: Numero di partecipanti massimo
+            availableSlots:
+              type: [null,integer]
+              description: Numero di posti rimanenti
+            allowServicesInstallmentPlan:
+              type: boolean
+              default: false
+              description: Servizi rateizzabili, indica se il prezzo dei servizi scelti debba essere inserito nella prima rata o spalmanto proporzionalmente su ogni rata
+            disciplines:
+              type: array
+              items:
+                $ref: '#/components/schemas/Discipline'
+            priceLists:
+              type: array
+              items: 
+                $ref: '#/components/schemas/PriceList'
+              description: Modalità di pagamento (rateizzazione, ecc.)
+            additionalServices:
+              type: array
+              items: 
+                $ref: '#/components/schemas/Service'
+              description: Servizi aggiuntivi disponibili per questa attività
+            standardServices:
+              type: array
+              items: 
+                $ref: '#/components/schemas/Service'
+              description: Servizi inclusi per questa attività
+            options:
+              type: array
+              items: 
+                $ref: '#/components/schemas/Option'
+              description: Servizi inclusi per questa attività
+            termsAndConditions:
+              type: [null,string]
+              summary: Testo che l'utente deve leggere e accettare per essere ammesso all'attività del centro sportivo
+              description: Termini e condizioni di iscrizione all'attività':' regolamenti, clausole, privacy, ecc. che l'utente deve leggere e accettare quando si iscrive a questa attività
+            optionalConsentsClauses:
+              type: array
+              items: 
+                $ref: '#/components/schemas/OptionalConsentsClause'
+              description: Consensi facoltativi':' lista delle clausole a cui l'utente può liberamente decidere se concedere o meno il consenso (es. pubblicazioni foto, invio pubblicità, ecc.)
+            extraConcessions:
+              type: array
+              items: 
+                type: string
+              description: Agevolazioni e sconti previsti per questa attività
+            requiredDocuments:
+              type: array
+              items: 
+                type: string
+              description: Documenti richiesti per l'iscrizione (certificati, carta identità, ecc.)
+            discount:
+              $ref: '#/components/schemas/Discount'
+            lastUpdatedDetails:
+              type: string
+              format: date-time
+              description: Timestamp aggiornamento dati (formato ISO 8601)
+        
+        PriceList:
+          type: object
+          required:
+            - id
+            - description
+            - installmentNumber
+            - price
+          properties:
+            id:
+              type: integer
+            description:
+              type: string
+            installmentNumber:
+              type: integer
+            price:
+              type: number
+            installmentsDetails:
+              description: Dettaglio del piano rate (pagate o da pagare)
+              type: array
+              minItems: 1
+              items: 
+                $ref: '#/components/schemas/PriceListInstallmentDetail'
+
+        PriceListInstallmentDetail:
+          type: object
+          required:
+            - number
+            - amount
+          properties:
+            number: 
+              type: integer
+            amount:
+              type: number
+            expirationDate:
+              type: [null, string]
+              format: date
+
+        Option:
+          type: object
+          required:
+            - id
+            - title
+            - values
+          properties:
+            id:
+              type: integer
+            title:
+              type: string
+            values:
+              type: array
+              minItems: 1
+              items:
+                type: string
+
+        Service:
+          type: object
+          required:
+            - id
+            - description
+          properties:
+            id:
+              type: integer
+            description:
+              type: string
+            price:
+              type: number
+              default: 0
+            countable:
+              type: boolean
+              default: false
+              description: Indica se il servizio è quantificabile (cioè se l'utente può scegliere la quantità)
+            maxQuantity:
+              type: [null, number]
+              description: In caso di servizi quantificabili, indica la quantità massima selezionabile
+
+        OptionalConsentsClause:
+          type: object
+          required:
+            - id
+            - title
+            - text
+          properties:
+            id:
+              type: integer
+              description: ID della clausola accettata (da inviare con il DTO dell'iscrizione se l'utente accetta questa condizione)
+            title:
+              type: string
+              description: Breve descrizione della clausola
+            text:
+              type: string
+              description: Testo completo della clausola facoltativa
+
+        ActivityType:
+          type: string
+          enum: [Prenotazione, Corso, Evento]
+          description: Tipo di attività
+
+        Discount:
+          type: object
+          properties:
+            multiFiglio:
+              type: [null,number]
+            multiAcquisto:
+              type: [null,number]
+
+        SearchItem:
+          type: object
+          required:
+            - id
+            - centerId
+            - centerName
+            - title
+            - description
+            - bannerUrl
+            - city
+            - logoUrl
+            - lastUpdatedDetails
+          properties:
+            id:
+              type: string
+            centerId:
+              type: string
+            activityId:
+              type: [null,string]
+            centerName:
+              type: string
+            title:
+              type: string
+            description:
+              type: string
+            bannerUrl:
+              type: string
+              format: uri
+            disciplines:
+              type: array
+              items:
+                $ref: '#/components/schemas/Discipline'
+            city:
+              type: string
+            logoUrl:
+              type: string
+              format: uri
+            startDate:
+              type: [null,string]
+              format: date
+              description: Data di inizio (AAAA-MM-GG)
+            endDate:
+              type: [null,string]
+              format: date
+              description: Data di fine (AAAA-MM-GG)
+            subscriptionStartDate:
+              type: [null,string]
+              format: date
+              description: Data di inizio iscrizione (AAAA-MM-GG)
+            subscriptionEndDate:
+              type: [null,string]
+              format: date
+              description: Data di fine iscrizione (AAAA-MM-GG)
+            availableSlots:
+              type: [null,integer]
+            activityType:
+              oneOf:
+              - $ref: '#/components/schemas/ActivityType'
+              - type: null
+            lastUpdatedDetails:
+              type: string
+              format: date-time
+              description: Timestamp aggiornamento dati (formato ISO 8601)
+
+        Discipline:
+          type: object
+          required:
+            - id
+            - name
+          properties:
+            id:
+              type: integer
+            name:
+              type: string
+
+        User:
+          type: object
+          required:
+            - id
+            - email
+            - lastUpdatedDetails
+          properties:
+            id:
+              type: string
+              description: ID univoco utente definito dal Auth Server di Asso.
+            firstName:
+              type: [null, string]
+              description: Nome dell'utente.
+            lastName:
+              type: [null, string]
+              description: Cognome dell'utente.
+            displayName:
+              type: string
+              description: Nome visualizzato dell'utente, può essere "Anonimo" se non specificato.
+              default: "Anonimo"
+            email:
+              type: string
+              format: email
+              description: Indirizzo email dell'utente.
+            birthDate:
+              type: [null, string]
+              format: date
+              description: Data di nascita dell'utente (formato YYYY-MM-DD).
+              example: "1990-01-15"
+            gender: 
+              $ref: '#/components/schemas/Gender'
+              default: "Non specificato"
+            photoUrl:
+              type: [null, string]
+              format: uri
+              description: URL della foto profilo dell'utente, può essere null.
+            lastLoginAt:
+              type: [null, string]
+              format: date-time
+              description: Timestamp ISO 8601 dell'ultimo accesso dell'utente.
+              example: "2024-05-22T11:30:00Z"
+            fiscalCode: 
+              type: [null, string]
+              description: Codice Fiscale dell'utente.
+              pattern: "^[A-Z]{6}[0-9LMNPQRSTUV]{2}[A-Z][0-9LMNPQRSTUV]{2}[A-Z][0-9LMNPQRSTUV]{3}[A-Z]$"
+              example: "RSSMRA90A15H501Z"
+            placeOfBirth: 
+              $ref: '#/components/schemas/Address'
+              description: Dettagli del luogo di nascita dell'utente.
+            address: 
+              $ref: '#/components/schemas/Address'
+              description: Indirizzo di residenza dell'utente.
+            phone: 
+              type: [null,string]
+              description: Numero di telefono dell'utente.
+            lastUpdatedDetails:
+              type: string
+              format: date-time
+              description: Timestamp aggiornamento dati (formato ISO 8601)
+
+        Gender:
+          type: string
+          description: Sesso dell'utente.
+          enum:
+            - "M"
+            - "F"
+            - "Non specificato"
+
+        Card: 
+          type: object
+          description: Rappresenta una tessera associata a un utente.
+          required:
+            - center
+            - number
+            - type
+            - level
+          properties:
+            center:
+              $ref: '#/components/schemas/Address'
+            number: 
+              type: string
+              description: Numero univoco della tessera.
+              example: "TC0012345"
+            type: 
+              type: string
+              description: Tipo di tessera.
+              enum:
+                - "Socio"
+                - "Iscritto"
+                - "Tesserato"
+              example: "Socio"
+            level: 
+              type: string
+              description: Livello della tessera (richiesto da Tennis Comunanza).
+              enum:
+                - "tessera gold"
+                - "tessera silver"
+              example: "tessera gold"
+
+        Child: 
+          type: object
+          required:
+            - id
+            - firstName
+            - lastName
+            - displayName
+            - birthDate
+            - gender
+            - fiscalCode
+            - placeOfBirth
+          properties:
+            id:
+              type: string
+              description: ID univoco figlio dell'Utente
+            firstName:
+              type: string
+              description: Nome del figlio.
+            lastName:
+              type: string
+              description: Cognome del figlio (diverso da quello della madre).
+              example: "Rossi"
+            displayName:
+              type: string
+              description: Nome completo del figlio.
+            birthDate:
+              type: string
+              format: date
+              description: Data di nascita dell'utente (formato YYYY-MM-DD).
+              example: "1990-01-15"
+            gender: 
+              type: string
+              description: Sesso dell'utente.
+              enum:
+                - "M"
+                - "F"
+            fiscalCode: 
+              type: string
+              description: Codice Fiscale dell'utente.
+              pattern: "^[A-Z]{6}[0-9LMNPQRSTUV]{2}[A-Z][0-9LMNPQRSTUV]{2}[A-Z][0-9LMNPQRSTUV]{3}[A-Z]$"
+              example: "RSSMRA90A15H501Z"
+            placeOfBirth: 
+              $ref: '#/components/schemas/Address'
+              description: Dettagli del luogo di nascita dell'utente.
+            address: 
+              $ref: '#/components/schemas/Address'
+              description: Indirizzo di residenza del figlio.
+
+        UserPurchase: 
+          type: object
+          description: Iscrizione o prenotazione acquistata dall'Utente
+          required:
+            - id
+            - centerId
+            - centerName
+            - centerLogoUrl
+            - activityId
+            - activityTitle
+            - registeredUser
+            - payment
+            - availablePaymentMethods
+            - createDate
+          properties:
+            id:
+              type: string
+              description: ID univoco utente definito dal Auth Server di Asso.
+            centerId:
+              type: string
+              description: ID del centro in cui è stato effettuato l'acquisto
+            centerName:
+              type: string
+              description: Nome del centro in cui è stato effettuato l'acquisto
+            centerLogoUrl:
+              type: string
+              format: uri
+              description: URL del logo del centro in cui è stato effettuato l'acquisto 
+            activityId:
+              type: string
+              description: ID dell'attività acquistata
+            activityTitle:
+              type: string
+              description: Nome dell'attività acquistata
+            isChildsEnrollment:
+              type: boolean
+              default: false
+              description: Indica se l'iscrizione è dell'utente stesso (false) o di un figlio (true)
+            registeredUser:
+              type: string
+              description: Nome dell'iscritto (utente o figlio)
+            notes:
+              type: string
+              default: ''
+              description: Testo libero inserito dall'utente (preferenze, allergie, richieste particolari, ecc.)
+            chosenCustomOptions:
+              type: array
+              description: Opzioni di iscrizione selezionate (titolo-valore)
+              items:
+                type: object
+                required:
+                  - title
+                  - value
+                properties:
+                  title: 
+                    type: string
+                  value:
+                    type: string
+            chosenServices:
+              type: array
+              description: Servizi aggiuntivi scelti dall'utente al momento dell'iscrizione
+              items:
+                type: object
+                required:
+                  - description
+                properties:
+                  description:
+                    type: string
+                  quantity: 
+                    type: [null, integer]
+            availablePaymentMethods:
+              description: Modalità di pagamento ammesse per questa iscrizione (sono le modalità ammesse al momento dell'acquisto e non variano se il centro le modifica in un secondo momento prima che l'utente esegua il pagamento)
+              type: array
+              minItems: 1
+              items: 
+                $ref: '#/components/schemas/PaymentMethod'
+            payment:
+              type: object
+              description: Informazioni relative al pagamento di questo acquisto
+              required:
+                - paidInstallmentsCount
+                - paidAmount
+                - totalAmount
+                - installmentsDetails
+              properties:
+                paidInstallmentsCount:
+                  type: integer
+                  description: Numero di rate pagate (il numero di rate totali è la lunghezza dell'array di dettaglio)
+                paidAmount:
+                  type: number
+                  description: Importo già saldato
+                totalAmount:
+                  type: number
+                  description: Importo totale
+                installmentsDetails:
+                  description: Dettaglio del piano rate (pagate o da pagare)
+                  type: array
+                  minItems: 1
+                  items: 
+                    $ref: '#/components/schemas/UserPurchaseInstallmentDetail'
+            createDate:
+              type: string
+              format: date
+              description: Data di inserimento dell'iscrizione
+
+        UserPurchaseInstallmentDetail:
+          type: object
+          description: Dettaglio della rata
+          required:
+            - paymentIntentId
+            - number
+            - amount
+            - expirationDate
+            - paid
+          properties:
+            paymentIntentId:
+              type: integer
+              description: ID dell'impegno di pagamento relativo alla rata (da utilizzare per pagare la rata o per scaricarne la ricevuta in caso sia già stata pagata)
+            number: 
+              type: integer
+              description: Progressivo
+            amount:
+              type: number
+            expirationDate:
+              type: string
+              format: date
+            paid: 
+              type: boolean
+            paidAt:
+              type: [null, string]
+              format: date
+            bankTransferReference:
+              type: [null, string]
+              description: Causale che il cliente deve indicare nel bonifico quando paga questa rata, per aiutare il centro con la riconciliazione
+            bankTransferAccountantUrl:
+              type: [null, string]
+              format: uri
+              description: Link alla contabile del bonifico che attesta l'avvenuto pagamento (balorizzato solo se l'utente paga con bonifico e carica una contabile)
+
+
+        PaymentMethod:
+          type: object
+          description: Modalità di pagamento accettate da un centro
+          required:
+            - id
+            - title
+            - description
+            - type
+          properties:
+            id:
+              type: integer
+            title:
+              type: string
+            description:
+              type: string
+            iban:
+              type: [null, string]
+              description: IBAN del conto corrente per il bonifico (solo per tipo bonifico)
+            type:
+              type: string
+              enum:
+                - pay at center
+                - pay in App
+                - bank transfer
+
         Address:
-            $ref: "../schemas/firestore.yaml#/components/schemas/Address"
+          type: object
+          properties:
+            road:
+              type: [null,string]
+            zipCode:
+              type: [null,string]
+            city:
+              type: [null,string]
+            district:
+              type: [null,string]
+            country:
+              type: [null,string]
+
+
+        # DTO per update e patch
+
+        UpdateTimestampDto:
+          type: object
+          required:
+            - lastUpdatedDetails
+          properties:
+            lastUpdatedDetails:
+              type: string
+              format: date-time
+              description: Timestamp aggiornamento dati (formato ISO 8601)
+
+        UpdateActivityModules:
+          description: sottoinsieme del model "Activity" contenente solo i campi necessari per aggiornare i moduli
+          type: object
+          required:
+            - lastUpdatedDetails
+          properties:
+            termsAndConditions:
+              type: string
+              summary: Testo che l'utente deve leggere e accettare per essere ammesso all'attività del centro sportivo
+              description: Termini e condizioni di iscrizione all'attività':' regolamenti, clausole, privacy, ecc. che l'utente deve leggere e accettare quando si iscrive a questa attività
+            optionalConsentsClauses:
+              type: array
+              items: 
+                $ref: '#/components/schemas/OptionalConsentsClause'
+              description: Consensi facoltativi':' lista delle clausole a cui l'utente può liberamente decidere se concedere o meno il consenso (es. pubblicazioni foto, invio pubblicità, ecc.)
+            lastUpdatedDetails:
+              type: string
+              format: date-time
+              description: Timestamp aggiornamento dati (formato ISO 8601)
+
+        UpdateUserPurchase:
+          type: object
+          allOf:
+            - $ref: '#/components/schemas/UserPurchase'
+            - properties:
+                id:
+                  type: string
+                  description: ID univoco utente definito dal Auth Server di Asso.
+                centerId:
+                  type: string
+                  description: ID del centro in cui è stato effettuato l'acquisto
+                centerName:
+                  type: string
+                  description: Nome del centro in cui è stato effettuato l'acquisto
+                centerLogoUrl:
+                  type: string
+                  format: uri
+                  description: URL del logo del centro in cui è stato effettuato l'acquisto 
+                activityId:
+                  type: string
+                  description: ID dell'attività acquistata
+                activityTitle:
+                  type: string
+                  description: Nome dell'attività acquistata
+                registeredUser:
+                  type: string
+                  description: Nome dell'iscritto (utente o figlio)
+                availablePaymentMethods:
+                  description: Modalità di pagamento ammesse per questa iscrizione (sono le modalità ammesse al momento dell'acquisto e non variano se il centro le modifica in un secondo momento prima che l'utente esegua il pagamento)
+                  type: array
+                  minItems: 1
+                  items: 
+                    $ref: '#/components/schemas/PaymentMethod'
+                createDate:
+                  type: string
+                  format: date
+                  description: Data di inserimento dell'iscrizione
+
+
