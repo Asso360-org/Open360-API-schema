@@ -12,6 +12,14 @@ tags:
       description: Operazioni relative alla gestione degli utenti
     - name: "Enrollments"
       description: Gestione delle iscrizioni
+    - name: "PaymentCommitments"
+      description: Gestione degli impegni di pagamento
+    - name: "OTP"
+      description: Gestione codici OTP
+    - name: "Centers"
+      description: Gestione dei centri e attività
+    - name: "Search"
+      description: Funzionalità di ricerca
 
 paths:
     /register:
@@ -230,6 +238,7 @@ paths:
                     description: Non autorizzato
                 "500":
                     description: Errore interno
+    
     /paymentCommitments/{paymentIntentId}/payInApp:
         get:
             tags:
@@ -258,6 +267,7 @@ paths:
                     description: Non autorizzato
                 "500":
                     description: Errore interno
+    
     /paymentCommitments/{paymentIntentId}/uploadBankTransferAccountant:
         post:
             tags:
@@ -300,11 +310,12 @@ paths:
                 "500":
                     description: Errore interno
 
-
-# chiamate ex-firestore
     /otpCodes:
       get:
+        tags:
+            - OTP
         summary: Restituisce il codice OTP
+        operationId: OTP_GetCode
         parameters:
           - name: email
             in: query
@@ -322,7 +333,10 @@ paths:
 
     /centers:
       get:
+        tags:
+            - Centers
         summary: Restituisce la lista di tutti i centri
+        operationId: Centers_GetAll
         responses:
           '200':
             description: Lista dei centri
@@ -333,7 +347,10 @@ paths:
                   items:
                     $ref: '#/components/schemas/Center'
       patch:
+        tags:
+            - Centers
         summary: Aggiorna la data di ultima modifica sul centro
+        operationId: Centers_UpdateTimestamp
         requestBody:
           required: true
           content:
@@ -346,7 +363,10 @@ paths:
 
     /centers/{centerId}:
       get:
+        tags:
+            - Centers
         summary: Restituisce i dettagli di un centro specifico
+        operationId: Centers_GetById
         parameters:
           - name: centerId
             in: path
@@ -366,7 +386,10 @@ paths:
 
     /centers/{centerId}/activity:
       get:
+        tags:
+            - Centers
         summary: Restituisce la lista delle attività di un centro
+        operationId: Centers_GetActivities
         parameters:
           - name: centerId
             in: path
@@ -401,7 +424,10 @@ paths:
           schema:
             type: string
       get:
+        tags:
+            - Centers
         summary: Restituisce i dettagli di un'attività specifica
+        operationId: Centers_GetActivityById
         responses:
           '200':
             description: Dati dell'attività
@@ -412,7 +438,10 @@ paths:
           '404':
             description: Centro o attività non trovata
       patch:
+        tags:
+            - Centers
         summary: Aggiorna i moduli collegati all'attività (richiamata quando si modificano i moduli a livello di centro)
+        operationId: Centers_UpdateActivityModules
         requestBody:
           required: true
           content:
@@ -422,11 +451,13 @@ paths:
         responses:
           '200':
             description: Aggiornato
-      
 
     /search:
       get:
+        tags:
+            - Search
         summary: Restituisce i risultati da visualizzare nella pagina di ricerca dell'app
+        operationId: Search_GetResults
         responses:
           '200':
             description: Risultati ricerca
@@ -439,7 +470,10 @@ paths:
 
     /users:
       get:
+        tags:
+            - Users
         summary: Utenti dell'app Open360
+        operationId: Users_GetAll
         responses:
           '200':
             description: Lista Utenti
@@ -450,7 +484,10 @@ paths:
                   items:
                     $ref: '#/components/schemas/User'
       patch:
-        summary: Aggiorna la data di ultima modifica sul centro
+        tags:
+            - Users
+        summary: Aggiorna la data di ultima modifica sull'utente
+        operationId: Users_UpdateTimestamp
         requestBody:
           required: true
           content:
@@ -463,7 +500,10 @@ paths:
 
     /users/{userId}/childs:
       get:
+        tags:
+            - Users
         summary: Figli dell'utente Open360
+        operationId: Users_GetChilds
         parameters:
           - name: userId
             in: path
@@ -483,7 +523,10 @@ paths:
 
     /users/{userId}/purchases:
       get:
+        tags:
+            - Users
         summary: Acquisti dell'utente
+        operationId: Users_GetPurchases
         parameters:
           - name: userId
             in: path
@@ -500,11 +543,13 @@ paths:
                   type: array
                   items:
                     $ref: '#/components/schemas/UserPurchase'
-                
 
     /users/{userId}/purchases/{purchaseId}:
       patch:
+        tags:
+            - Users
         summary: Aggiorna un Acquisto dell'Utente, chiamata quando viene completato il pagamento 
+        operationId: Users_UpdatePurchase
         parameters:
           - name: userId
             in: path
