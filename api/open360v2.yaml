@@ -1,0 +1,830 @@
+openapi: 3.1.0
+info:
+    title: Open360 app API
+    version: 1.0.0
+    description: API per tutte le richieste inerenti l'app
+
+servers:
+    - url: https://open360.it/app/v1
+
+tags:
+    - name: "Users"
+      description: Operazioni relative alla gestione degli utenti
+    - name: "Enrollments"
+      description: Gestione delle iscrizioni
+
+paths:
+    /register:
+        post:
+            tags:
+                - Users
+            operationId: Users_Register
+            summary: Registra un nuovo utente
+            description: Usata solo dalla LoginFunction con accesso privilegiato.
+            security:
+                - bearerAuth: []
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/RegisterRequest"
+            responses:
+                "200":
+                    description: Utente registrato
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/RegisterResponse"
+                "400":
+                    description: Richiesta non valida
+                "401":
+                    description: Non autorizzato
+                "500":
+                    description: Errore interno
+
+    /notifyCode:
+        post:
+            tags:
+                - Users
+            operationId: Users_NotifyCode
+            summary: Invia email con il codice OTP
+            security:
+                - bearerAuth: []
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/NotifyCodeRequest"
+            responses:
+                "200":
+                    description: Codice inviato con successo
+                "400":
+                    description: Richiesta non valida
+                "401":
+                    description: Non autorizzato
+                "500":
+                    description: Errore interno
+
+    /updateUserProfile:
+        post:
+            tags:
+                - Users
+            operationId: Users_UpdateUserProfile
+            summary: Aggiorna i dati del profilo utente
+            security:
+                - bearerAuth: []
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/UpdateProfileDataRequest"
+            responses:
+                "200":
+                    description: Dati aggiornati con successo
+                "400":
+                    description: Richiesta non valida
+                "401":
+                    description: Non autorizzato
+                "500":
+                    description: Errore interno
+
+    /deleteUserAccount:
+        post:
+            tags:
+                - Users
+            operationId: Users_DeleteUserAccount
+            summary: Elimina l'account utente
+            security:
+                - bearerAuth: []
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/DeleteUserAccountRequest"
+            responses:
+                "200":
+                    description: Account eliminato con successo
+                "400":
+                    description: Richiesta non valida
+                "401":
+                    description: Non autorizzato
+                "500":
+                    description: Errore interno
+
+    /deleteUserChild:
+        post:
+            tags:
+                - Users
+            operationId: Users_DeleteUserChild
+            summary: Elimina un figlio associato all'account utente
+            security:
+                - bearerAuth: []
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/DeleteUserChildRequest"
+            responses:
+                "200":
+                    description: Figlio eliminato con successo
+                "400":
+                    description: Richiesta non valida
+                "401":
+                    description: Non autorizzato
+                "500":
+                    description: Errore interno
+
+    /enrollments:
+        post:
+            tags:
+                - Enrollments
+            summary: Permette all'utente di inserire una nuova iscrizione a corso/evento dall'app
+            operationId: Enrollments_InsertEnrollments
+            security:
+                - bearerAuth: []
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/InsertEnrollmentsRequest"
+            responses:
+                "200":
+                    description: Iscrizione registrata con successo
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/InsertEnrollmentsResponse"
+                "400":
+                    description: Richiesta non valida
+                "401":
+                    description: Non autorizzato
+                "500":
+                    description: Errore interno
+
+    /enrollments/{enrollmentId}/module:
+        get:
+            tags:
+                - Enrollments
+            summary: Permette all'utente di scaricare il modulo relativo all'iscrizione effettuata
+            operationId: Enrollments_GetModule
+            security:
+                - bearerAuth: []
+            parameters:
+                - name: enrollmentId
+                  in: path
+                  required: true
+                  description: ID dell'iscrizione
+                  schema:
+                    type: integer
+            responses:
+                "200":
+                    description: Invia il link per scaricare il modulo iscrizione in PDF
+                    content:
+                        application/json:
+                            schema:
+                                type: string
+                "400":
+                    description: Richiesta non valida
+                "401":
+                    description: Non autorizzato
+                "500":
+                    description: Errore interno
+
+    /paymentCommitments/{paymentIntentId}/receipt:
+         get:
+            tags:
+                - PaymentCommitments
+            summary: Scarica la ricevuta di pagamento di un impegno
+            operationId: PaymentCommitments_GetReceipt
+            security:
+                - bearerAuth: []
+            parameters:
+                - name: paymentIntentId
+                  in: path
+                  required: true
+                  description: ID dell'impegno di pagamento
+                  schema:
+                    type: integer
+            responses:
+                "200":
+                    description: Ricevuta in PDF
+                    content:
+                        application/json:
+                            schema:
+                                type: string
+                "204":
+                    description: Ricevuta non presente
+                    content:
+                        application/json:
+                            schema:
+                                type: string
+                "400":
+                    description: Richiesta non valida
+                "401":
+                    description: Non autorizzato
+                "500":
+                    description: Errore interno
+    /paymentCommitments/{paymentIntentId}/payInApp:
+        get:
+            tags:
+                - PaymentCommitments
+            summary: Ottiene un payment intent per pagare un impegno dall'app
+            operationId: PaymentCommitments_PayInApp
+            security:
+                - bearerAuth: []
+            parameters:
+                - name: paymentIntentId
+                  in: path
+                  required: true
+                  description: ID dell'impegno di pagamento
+                  schema:
+                    type: integer
+            responses:
+                "200":
+                    description: Payment intent per pagare un impegno
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/PayInAppResponse"
+                "400":
+                    description: Richiesta non valida
+                "401":
+                    description: Non autorizzato
+                "500":
+                    description: Errore interno
+    /paymentCommitments/{paymentIntentId}/uploadBankTransferAccountant:
+        post:
+            tags:
+                - PaymentCommitments
+            summary: Carica una contabile per attestare l'avvenuto bonifico
+            operationId: PaymentCommitments_UploadBankTransferAccountant
+            security:
+                - bearerAuth: []
+            parameters:
+                - name: paymentIntentId
+                  in: path
+                  required: true
+                  description: ID dell'impegno di pagamento
+                  schema:
+                      type: integer
+            requestBody:
+                required: true
+                content:
+                    multipart/form-data:
+                        schema:
+                            type: object
+                            required:
+                                - file
+                            properties:
+                                file:
+                                    type: string
+                                    format: binary
+                                    description: Il file in formato PDF o immagine
+            responses:
+                "200":
+                    description: Contabile caricata correttamente e URL per visualizzarla
+                    content:
+                        application/json:
+                            schema:
+                                type: string
+                "400":
+                    description: Richiesta non valida
+                "401":
+                    description: Non autorizzato
+                "500":
+                    description: Errore interno
+
+
+# chiamate ex-firestore
+    /otpCodes:
+      get:
+        summary: Restituisce il codice OTP
+        parameters:
+          - name: email
+            in: query
+            required: false
+            schema:
+              type: string
+              format: email
+        responses:
+          '200':
+            description: Codice OTP restituito correttamente
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/OtpCode'
+
+    /centers:
+      get:
+        summary: Restituisce la lista di tutti i centri
+        responses:
+          '200':
+            description: Lista dei centri
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Center'
+      patch:
+        summary: Aggiorna la data di ultima modifica sul centro
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateTimestampDto'
+        responses:
+          '200':
+            description: Aggiornato
+
+    /centers/{centerId}:
+      get:
+        summary: Restituisce i dettagli di un centro specifico
+        parameters:
+          - name: centerId
+            in: path
+            required: true
+            description: ID univoco del centro
+            schema:
+              type: string
+        responses:
+          '200':
+            description: Dati del centro
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Center'
+          '404':
+            description: Centro non trovato
+
+    /centers/{centerId}/activity:
+      get:
+        summary: Restituisce la lista delle attività di un centro
+        parameters:
+          - name: centerId
+            in: path
+            required: true
+            description: ID univoco del centro
+            schema:
+              type: string
+        responses:
+          '200':
+            description: Lista delle attività di un centro
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Activity'
+          '404':
+            description: Centro non trovato
+
+    /centers/{centerId}/activity/{activityId}:
+      parameters:
+        - name: centerId
+          in: path
+          required: true
+          description: ID del centro
+          schema:
+            type: string
+        - name: activityId
+          in: path
+          required: true
+          description: ID unico dell'attività
+          schema:
+            type: string
+      get:
+        summary: Restituisce i dettagli di un'attività specifica
+        responses:
+          '200':
+            description: Dati dell'attività
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Activity'
+          '404':
+            description: Centro o attività non trovata
+      patch:
+        summary: Aggiorna i moduli collegati all'attività (richiamata quando si modificano i moduli a livello di centro)
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateActivityModules'
+        responses:
+          '200':
+            description: Aggiornato
+      
+
+    /search:
+      get:
+        summary: Restituisce i risultati da visualizzare nella pagina di ricerca dell'app
+        responses:
+          '200':
+            description: Risultati ricerca
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/SearchItem'
+
+    /users:
+      get:
+        summary: Utenti dell'app Open360
+        responses:
+          '200':
+            description: Lista Utenti
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/User'
+      patch:
+        summary: Aggiorna la data di ultima modifica sul centro
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateTimestampDto'
+        responses:
+          '200':
+            description: Aggiornato
+
+    /users/{userId}/childs:
+      get:
+        summary: Figli dell'utente Open360
+        parameters:
+          - name: userId
+            in: path
+            required: true
+            description: ID dell'utente
+            schema:
+              type: string
+        responses:
+          '200':
+            description: Lista figli dell'Utente
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Child'
+
+    /users/{userId}/purchases:
+      get:
+        summary: Acquisti dell'utente
+        parameters:
+          - name: userId
+            in: path
+            required: true
+            description: ID dell'utente
+            schema:
+              type: string
+        responses:
+          '200':
+            description: Lista acquisti dell'Utente
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/UserPurchase'
+                
+
+    /users/{userId}/purchases/{purchaseId}:
+      patch:
+        summary: Aggiorna un Acquisto dell'Utente, chiamata quando viene completato il pagamento 
+        parameters:
+          - name: userId
+            in: path
+            required: true
+            description: ID dell'utente
+            schema:
+              type: string
+          - name: purchaseId
+            in: path
+            required: true
+            description: ID dell'acquisto
+            schema:
+              type: string
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateUserPurchase'
+        responses:
+          '200':
+            description: Aggiornato
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/UserPurchase'
+
+components:
+    securitySchemes:
+        bearerAuth:
+            type: http
+            scheme: bearer
+            bearerFormat: JWT
+
+    schemas:
+        RegisterRequest:
+            type: object
+            description: DTO inviato dall'app al momento della registrazione di un nuovo utente
+            properties:
+              subjectId:
+                type: [null,string]
+              centerId:
+                type: [null,string]
+              email:
+                type: string
+                format: email
+              name:
+                type: [null,string]
+              photoUrl:
+                type: [null,string]
+                format: uri
+            required:
+              - email
+
+        RegisterResponse:
+            type: object
+            description: DTO di risposta dall'app dopo la registrazione di un nuovo utente
+            properties:
+                userId:
+                    type: string
+            required:
+                - userId
+
+        NotifyCodeRequest:
+            type: object
+            required:
+                - code
+                - email
+            properties:
+                code:
+                    type: string
+                email:
+                    type: string
+                    format: email
+
+        UpdateProfileDataRequest:
+            type: object
+            required:
+                - id
+            properties:
+                id:
+                    type: string
+                firstName:
+                    type: [null,string]
+                lastName:
+                    type: [null,string]
+                email:
+                    type: [null,string]
+                    format: email
+                fiscalCode:
+                    type: [null,string]
+                phone:
+                    type: [null,string]
+                address:
+                    $ref: "#/components/schemas/Address"
+
+        DeleteUserAccountRequest:
+            type: object
+            required:
+                - userId
+            properties:
+                userId:
+                    type: string
+
+        DeleteUserChildRequest:
+            type: object
+            required:
+                - userId
+                - childId
+            properties:
+                userId:
+                    type: string
+                childId:
+                    type: string
+
+        InsertEnrollmentsRequest:
+            type: object
+            required:
+                - chosenPaymentMethod
+                - enrollments
+            properties:
+                chosenPaymentMethod:
+                    type: object
+                    required:
+                        - id
+                    description: Strumento scelto dall'utente per eseguire il pagamento
+                    properties:
+                        id:
+                            type: integer
+                            description: ID dello strumento di pagamento scelto
+                enrollments:
+                    type: array
+                    minItems: 1
+                    items:
+                        $ref: "#/components/schemas/Enrollment"
+
+        Enrollment:
+            type: object
+            required:
+                - activityId
+                - centerId
+                - registeredUser
+                - chosenPriceList
+                - billingDetails
+            properties:
+                activityId:
+                    type: string
+                    description: ID dell'attività
+                centerId:
+                    type: string
+                    description: ID del centro
+                parentUser:
+                    type: object
+                    description: Dati del genitore (da compilare solo quando si sta inviando l'iscrizione ad un corso per minorenni; in caso contrario usare "registeredUser")
+                    required:
+                        - firstName
+                        - lastName
+                        - fiscalCode
+                        - address
+                    properties:
+                        firstName:
+                            type: string
+                        lastName:
+                            type: string
+                        fiscalCode:
+                            type: string
+                        address:
+                            $ref: "#/components/schemas/Address"
+                        phoneNumber:
+                            type: [null, string]
+                registeredUser:
+                    type: object
+                    description: Dati dell'iscritto
+                    required:
+                        - firstName
+                        - lastName
+                        - fiscalCode
+                        - address
+                    properties:
+                        id:
+                            type: [null, string]
+                            description: ID dell'iscritto (da compilare solo quando si sta inviando l'iscrizione ad un corso per minorenni, e si è scelto di iscrivere un figlio recuperato dalla lista dei figli già caricati)
+                        firstName:
+                            type: string
+                        lastName:
+                            type: string
+                        fiscalCode:
+                            type: string
+                        address:
+                            $ref: "#/components/schemas/Address"
+                        phoneNumber:
+                            type: [null, string]
+                chosenCustomOptions:
+                    type: array
+                    description: Opzioni di iscrizione selezionate dall'utente
+                    items:
+                        type: object
+                        required:
+                            - id
+                            - selectedValue
+                        properties:
+                            id:
+                                type: integer
+                                description: ID dell'opzione (es. "scegli il turno", "scegli la taglia della maglietta")
+                            selectedValue:
+                                type: integer
+                                description: Valore dell'opzione scelta (es. "turno 1", "M")
+                chosenServices:
+                    type: array
+                    description: Servizi aggiuntivi scelti dall'utente
+                    items:
+                        type: object
+                        required:
+                            - id
+                        properties:
+                            id:
+                                type: integer
+                            quantity:
+                                type: [null, integer]
+                chosenPriceList:
+                    type: object
+                    description: Dettaglio del piano rate scelto dall'utente
+                    required:
+                        - id
+                    properties:
+                        id:
+                            type: integer
+                            description: ID del piano rate selezionato
+                chosenConsents:
+                    type: array
+                    items: 
+                        type: integer
+                        description: ID della clausola accettata (fa riferimento alla lista di termini e condizioni relative all'attività)
+                    description: Lista delle clausole facoltative che l'utente ha accettato; si inviano solo le clausole facoltative in quanto si dà per scontato che quelle obbligatorie siano state accettate al momento di inoltrare l'iscrizione
+                notes:
+                    type: string
+                    default: ""
+                    description: Testo libero inserito dall'utente (preferenze, allergie, richieste particolari, ecc.)
+                moduleAcceptances:
+                    type: array
+                    description: Accepted modules and policies
+                    items:
+                        type: integer
+                        description: ID delle policy accettate dall'utente
+                billingDetails:
+                    type: object
+                    description: Dati di fatturazione
+                    required:
+                        - firstName
+                        - lastName
+                        - fiscalCode
+                        - address
+                        - email
+                    properties:
+                        firstName:
+                            type: string
+                        lastName:
+                            type: string
+                        fiscalCode:
+                            type: string
+                        address:
+                            $ref: "#/components/schemas/Address"
+                        email:
+                            type: string
+
+        InsertEnrollmentsResponse:
+            type: object
+            required:
+                - amount
+                - chosenPaymentMethod
+            properties:
+                amount:
+                    type: number
+                    description: Importo effettivo della prossima rata da pagare
+                chosenPaymentMethod:
+                    type: string
+                    enum:
+                        - pay at center
+                        - pay in App
+                        - bank transfer
+                    description: Modalità di pagamento scelta
+                paymentIntentClientSecret:
+                    type: [null, string]
+                    description: Payment intent ID generato da Stripe (presente solo se la modalità di pagamento scelta è "pay in App")
+                customerId:
+                    type: [null, string]
+                    description: ID del customer Stripe associato all'utente che sta effettuando il pagamento
+                customerEphemeralKeySecret:
+                    type: [null, string]
+                    description: Ephemeral key per il customer Stripe associato all'utente che sta effettuando il pagamento
+                publishableKey:
+                    type: [null, string]
+                    description: Chiave pubblica Stripe da usare nell'SDK per i pagamenti in-app 
+                iban:
+                    type: [null, string]
+                    description: IBAN su cui il client dovrà fare il bonifico
+                bankTransferReference:
+                    type: [null, string]
+                    description: Causale che il cliente deve indicare nel bonifico per aiutare il centro con la riconciliazione del pagamento 
+
+        PayInAppResponse:
+            type: object
+            required:
+                - paymentIntentClientSecret
+                - customerId
+                - customerEphemeralKeySecret
+                - publishableKey
+            properties:
+                paymentIntentClientSecret:
+                    type: string
+                    description: Client secret del payment intent generato da Stripe per permettere il pagamento in-app tramite SDK di Stripe
+                customerId:
+                    type: string
+                    description: ID del customer Stripe associato all'utente che sta effettuando il pagamento
+                customerEphemeralKeySecret:
+                    type: string
+                    description: Ephemeral key per il customer Stripe associato all'utente che sta effettuando il pagamento
+                publishableKey:
+                    type: string
+                    description: Chiave pubblica Stripe da usare nell'SDK per i pagamenti in-app 
+
+        Address:
+            $ref: "../schemas/firestore.yaml#/components/schemas/Address"
