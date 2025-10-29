@@ -786,7 +786,6 @@ components:
                     description: Lista delle clausole facoltative che l'utente ha accettato; si inviano solo le clausole facoltative in quanto si dà per scontato che quelle obbligatorie siano state accettate al momento di inoltrare l'iscrizione
                 notes:
                     type: string
-                    default: ""
                     description: Testo libero inserito dall'utente (preferenze, allergie, richieste particolari, ecc.)
                 moduleAcceptances:
                     type: array
@@ -871,7 +870,7 @@ components:
                     type: string
                     description: Chiave pubblica Stripe da usare nell'SDK per i pagamenti in-app 
 
-
+#ex-firestore models
 
         CollectionsNames:
           type: string
@@ -919,7 +918,6 @@ components:
               description: Nome del centro
             description:
               type: string
-              default: ''
               description: Descrizione (HTML)
             address:
               $ref: '#/components/schemas/Address'
@@ -1006,6 +1004,11 @@ components:
             - subscriptionEndDate
             - type
             - imageUrl
+            - reserved
+            - membershipCardRequired
+            - manualApproved
+            - underageReserved
+            - allowServicesInstallmentPlan
             - priceLists
             - lastUpdatedDetails
           properties:
@@ -1183,6 +1186,8 @@ components:
           type: object
           required:
             - id
+            - price
+            - countable
             - description
           properties:
             id:
@@ -1310,6 +1315,7 @@ components:
           required:
             - id
             - email
+            - displayName
             - lastUpdatedDetails
           properties:
             id:
@@ -1462,6 +1468,7 @@ components:
             - centerLogoUrl
             - activityId
             - activityTitle
+            - isChildsEnrollment
             - registeredUser
             - payment
             - availablePaymentMethods
@@ -1495,7 +1502,6 @@ components:
               description: Nome dell'iscritto (utente o figlio)
             notes:
               type: string
-              default: ''
               description: Testo libero inserito dall'utente (preferenze, allergie, richieste particolari, ecc.)
             chosenCustomOptions:
               type: array
