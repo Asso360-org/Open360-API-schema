@@ -431,6 +431,7 @@ components:
                         - firstName
                         - lastName
                         - fiscalCode
+                        - birthCity
                         - address
                     properties:
                         firstName:
@@ -438,6 +439,8 @@ components:
                         lastName:
                             type: string
                         fiscalCode:
+                            type: string
+                        birthCity:
                             type: string
                         address:
                             $ref: "#/components/schemas/Address"
@@ -450,6 +453,7 @@ components:
                         - firstName
                         - lastName
                         - fiscalCode
+                        - birthCity
                         - address
                     properties:
                         id:
@@ -460,6 +464,8 @@ components:
                         lastName:
                             type: string
                         fiscalCode:
+                            type: string
+                        birthCity:
                             type: string
                         address:
                             $ref: "#/components/schemas/Address"
