@@ -366,6 +366,8 @@ components:
                     type: [null,string]
                 phone:
                     type: [null,string]
+                birthCity:
+                    type: [null,string]
                 address:
                     $ref: "#/components/schemas/Address"
 
