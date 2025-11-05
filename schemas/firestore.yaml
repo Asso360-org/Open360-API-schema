@@ -716,7 +716,7 @@ components:
           pattern: "^[A-Z]{6}[0-9LMNPQRSTUV]{2}[A-Z][0-9LMNPQRSTUV]{2}[A-Z][0-9LMNPQRSTUV]{3}[A-Z]$"
           example: "RSSMRA90A15H501Z"
         placeOfBirth: 
-          $ref: '#/components/schemas/Address'
+          type: [null, string]
           description: Dettagli del luogo di nascita dell'utente.
         address: 
           $ref: '#/components/schemas/Address'
@@ -810,8 +810,8 @@ components:
           pattern: "^[A-Z]{6}[0-9LMNPQRSTUV]{2}[A-Z][0-9LMNPQRSTUV]{2}[A-Z][0-9LMNPQRSTUV]{3}[A-Z]$"
           example: "RSSMRA90A15H501Z"
         placeOfBirth: 
-          $ref: '#/components/schemas/Address'
-          description: Dettagli del luogo di nascita dell'utente.
+          type: string
+          description: Luogo di nascita dell'utente.
         address: 
           $ref: '#/components/schemas/Address'
           description: Indirizzo di residenza del figlio.
