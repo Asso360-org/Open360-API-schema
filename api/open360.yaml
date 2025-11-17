@@ -629,7 +629,8 @@ components:
             required:
                 - minimumVersion
                 - latestVersion
-                - updateUrl
+                - androidPlayStoreUrl
+                - iosAppStoreUrl
             properties:
                 minimumVersion:
                     type: string
@@ -637,9 +638,13 @@ components:
                 latestVersion:
                     type: string
                     description: Ultima versione disponibile dell'app
-                updateUrl:
+                androidPlayStoreUrl:
                     type: string
-                    description: URL per scaricare l'aggiornamento dell'app
+                    description: URL per scaricare l'aggiornamento dell'app su Android
+                    format: uri
+                iosAppStoreUrl:
+                    type: string
+                    description: URL per scaricare l'aggiornamento dell'app su iOS
                     format: uri
 
         Address:
