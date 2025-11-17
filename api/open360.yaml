@@ -300,6 +300,28 @@ paths:
                 "500":
                     description: Errore interno
 
+    /appVersionRequirements:
+        get:
+            tags:
+                - Version
+            operationId: Version_GetVersionRequirements
+            security:
+                - bearerAuth: []
+            summary: Ottiene le informazioni sui requisiti di versione dell'app
+            responses:
+                "200":
+                    description: Requisiti di versione ottenuti con successo
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/VersionRequirementsResponse"
+                "500":
+                    description: Errore interno
+                "400":
+                    description: Richiesta non valida
+                "401":
+                    description: Non autorizzato
+
 components:
     securitySchemes:
         bearerAuth:
@@ -601,6 +623,24 @@ components:
                 publishableKey:
                     type: string
                     description: Chiave pubblica Stripe da usare nell'SDK per i pagamenti in-app 
+
+        VersionRequirementsResponse:
+            type: object
+            required:
+                - minimumVersion
+                - latestVersion
+                - updateUrl
+            properties:
+                minimumVersion:
+                    type: string
+                    description: Versione minima supportata dell'app
+                latestVersion:
+                    type: string
+                    description: Ultima versione disponibile dell'app
+                updateUrl:
+                    type: string
+                    description: URL per scaricare l'aggiornamento dell'app
+                    format: uri
 
         Address:
             $ref: "../schemas/firestore.yaml#/components/schemas/Address"
