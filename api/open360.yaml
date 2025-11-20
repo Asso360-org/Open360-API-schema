@@ -12,8 +12,33 @@ tags:
       description: Operazioni relative alla gestione degli utenti
     - name: "Enrollments"
       description: Gestione delle iscrizioni
+    - name: "Centers"
+      description: Gestione dei centri
 
 paths:
+    /centers:
+        get:
+            tags:
+                - Centers
+            summary: Permette all'amministratore di centro di ottenere la lista dei centri associati alla propria organizzazione
+            operationId: Centers_GetCenters
+            security:
+                - bearerAuth: []
+            responses:
+                "200":
+                    description: Lista dei propri centri
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: "#/components/schemas/CenterResponse"
+                "400":
+                    description: Richiesta non valida
+                "401":
+                    description: Non autorizzato
+                "500":
+                    description: Errore interno
     /register:
         post:
             tags:
@@ -330,6 +355,17 @@ components:
             bearerFormat: JWT
 
     schemas:
+        CenterResponse:
+            type: object
+            description: DTO di risposta per un centro
+            properties:
+                id:
+                    type: string
+                    description: ID del centro
+                name:
+                    type: string
+                    description: Nome del centro
+
         RegisterRequest:
             type: object
             description: DTO inviato dall'app al momento della registrazione di un nuovo utente
