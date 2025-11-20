@@ -16,7 +16,7 @@ tags:
       description: Gestione dei centri
 
 paths:
-    /managedCenters:
+    /managed-centers:
         get:
             tags:
                 - ManagedCenters
