@@ -12,16 +12,16 @@ tags:
       description: Operazioni relative alla gestione degli utenti
     - name: "Enrollments"
       description: Gestione delle iscrizioni
-    - name: "Centers"
+    - name: "ManagedCenters"
       description: Gestione dei centri
 
 paths:
     /managed-centers:
         get:
             tags:
-                - Centers
+                - ManagedCenters
             summary: Permette all'amministratore di centro di ottenere la lista dei centri associati alla propria organizzazione
-            operationId: Centers_GetCenters
+            operationId: ManagedCenters_GetManagedCenters
             security:
                 - bearerAuth: []
             responses:
