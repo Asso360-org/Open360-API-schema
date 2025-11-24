@@ -538,14 +538,17 @@ components:
                         type: object
                         required:
                             - id
-                            - selectedValue
+                            - selectedValues
                         properties:
                             id:
                                 type: integer
                                 description: ID dell'opzione (es. "scegli il turno", "scegli la taglia della maglietta")
-                            selectedValue:
-                                type: integer
-                                description: Valore dell'opzione scelta (es. "turno 1", "M")
+                            selectedValues:
+                                type: array
+                                uniqueItems: true
+                                items:
+                                    type: integer
+                                description: Valori delle opzioni scelte (es. "turno 1", "M")
                 chosenServices:
                     type: array
                     description: Servizi aggiuntivi scelti dall'utente

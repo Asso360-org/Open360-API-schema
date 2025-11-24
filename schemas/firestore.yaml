@@ -542,6 +542,14 @@ components:
           minItems: 1
           items:
             type: string
+        minSelectable:
+          type: integer
+          default: 0
+          description: Numero minimo di opzioni selezionabili
+        maxSelectable:
+          type: integer
+          default: 1
+          description: Numero massimo di opzioni selezionabili
 
     Service:
       type: object
