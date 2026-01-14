@@ -300,9 +300,6 @@ components:
         timetable:
           type: [null,string]
           description: Informazioni sugli orari di apertura/attività
-        availableServices:
-          type: [null,string]
-          description: Elenco o descrizione dei servizi disponibili
         paymentMethods:
           description: Modalità di pagamento ammesse da un centro (es. paga in centro, paga in app, bonifico, ...)
           type: array
